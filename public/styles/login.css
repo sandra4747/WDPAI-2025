@@ -1,0 +1,65 @@
+/* * {
+    font-size: 20px;
+} */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+ }
+form {
+    h1 {
+        color: #9b59b6;
+    }
+
+    background-color: lightgray;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 1rem;
+    padding: 1.5rem;
+
+    width: 45vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    
+}
+input {
+    padding: 1rem; /* margines wewnętrzny */
+    border: 1px solid #ccc;
+    border-radius: 0.75rem; /* zaokrąglenie rogów */
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #9b59b6; /* fioletowy odcień przy focusie */
+    outline: none;
+    box-shadow: 0 0 5px rgba(155, 89, 182, 0.5);
+  }
+  
+  button {
+    padding: 1rem; /* margines wewnętrzny */
+    border: none;
+    border-radius: 0.75rem; /* zaokrąglenie rogów */
+    background: linear-gradient(135deg, #8e44ad, #9b59b6); /* fioletowy gradient */
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background: linear-gradient(135deg, #9b59b6, #be90d4); /* jaśniejszy gradient przy najechaniu */
+    transform: scale(1.03);
+  }
+  
+  @media screen and (max-width: 480px){
+    form {
+        width: 100vw;
+    }
+  }
