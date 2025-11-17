@@ -1,6 +1,8 @@
 <?php
 
 require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/DashboardController.php';
+
 
 class Routing {
 
@@ -12,29 +14,44 @@ class Routing {
         "register" => [
             "controller" => "SecurityController",
             "action" => "register"
+        ],
+        "dashboard" => [
+            "controller" => "DashboardController",
+            "action" => "index"
         ]
 
         ];
 
-    public static function run(string $path){
-        switch($path){
-            case 'dashboard':
-
-                include 'public/views/dashboard.html';
-                echo "<h2>Dashboard</h2>";
-                break;
-            case 'login':
-            case 'register':
-                $controller = Routing::$routes[$path]["controller"];
-                $action = Routing::$routes[$path]["action"];
-
-                $controllerObj = new $controller();
-                $controllerObj->$action();
-                break;
-            default:
-                include 'public/views/404.html';
-                echo "<h2>404</h2>";
-                break;
-        }
+        public static function run(string $path){
+            $path = trim($path, '/');
+            $segments = explode('/', $path);
+            
+            // Pobierz pierwszy segment (nazwa routingu)
+            $action = $segments[0] ?? '';
+            
+            // Pobierz parametry (wszystko po pierwszym segmencie)
+            $parameters = array_slice($segments, 1);
+    
+            switch($action){
+                case 'dashboard':
+                    $controller = Routing::$routes[$action]['controller'];
+                    $method = Routing::$routes[$action]['action'];
+    
+                    $controller = $controller::getInstance();
+                    $controller->$method();
+                    break;
+                case 'register':
+                case 'login':
+                    $controller = Routing::$routes[$action]['controller'];
+                    $method = Routing::$routes[$action]['action'];
+                    
+                    $controller = $controller::getInstance();
+                    $controller->$method();
+                    break;
+                default:
+                    include 'public/views/404.html';
+                    echo "<h2>404</h2>";
+                    break;
+            }
     }
 }
