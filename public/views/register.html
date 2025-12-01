@@ -10,8 +10,8 @@
 </head>
 
 <body>
-    <form method="POST" action="\login">
-        <h1>LOGIN</h1>
+    <form method="POST" action="\register">
+        <h1>REGISTER</h1>
         <?php if(isset($messages)) : ?>
 
         <p class="messages">
@@ -22,6 +22,10 @@
     
         <input name="email" type="email" placeholder="Twój email">
         <input name="password" type="password" placeholder="Twoje hasło">
+        <input name="password2" type="password" placeholder="Powtórz hasło">
+        <input name="firstname" type="text" placeholder="Imię">
+        <input name="lastname" type="text" placeholder="Nazwisko">
+
         <button type="submit">LOGIN</button>
     </form>
 </body>
