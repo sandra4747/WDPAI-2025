@@ -1,29 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/login.css">
-    <title>LOGIN</title>
+
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/login.css">
+
+    <title>DreamBo | Logowanie</title>
 </head>
 
-<body>
-    <form method="POST" action="\login">
-        <h1>LOGIN</h1>
-        <?php if(isset($messages)) : ?>
+<body class="auth-page">
 
-        <p class="messages">
-            <?= $messages ?>
-        </p>
+    <div class="auth-wrapper">
 
-        <?php endif; ?>
-    
-        <input name="email" type="email" placeholder="Twój email">
-        <input name="password" type="password" placeholder="Twoje hasło">
-        <button type="submit">LOGIN</button>
-    </form>
+        <div class="auth-card">
+
+            <h1 class="brand">DreamBo</h1>
+            <p class="subtitle">Twoje centrum dowodzenia marzeniami</p>
+
+            <?php if (isset($messages)) : ?>
+                <p class="messages"><?= htmlspecialchars($messages) ?></p>
+            <?php endif; ?>
+
+            <form method="POST" action="/login" class="auth-form">
+
+                <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="np. jan@dreambo.pl" required>
+                </label>
+
+                <label>
+                    <span>Hasło</span>
+                    <input name="password" type="password" placeholder="••••••••" required>
+                </label>
+
+                <button type="submit" class="primary-btn">
+                    Zaloguj się
+                </button>
+
+            </form>
+
+            <p class="auth-footer">
+                Nie masz konta?
+                <a href="/register">Zarejestruj się</a>
+            </p>
+
+        </div>
+
+    </div>
+
 </body>
-
 </html>
