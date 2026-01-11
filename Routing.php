@@ -25,33 +25,29 @@ class Routing {
         public static function run(string $path){
             $path = trim($path, '/');
             $segments = explode('/', $path);
-            
-            // Pobierz pierwszy segment (nazwa routingu)
+        
             $action = $segments[0] ?? '';
-            
-            // Pobierz parametry (wszystko po pierwszym segmencie)
             $parameters = array_slice($segments, 1);
-    
-            switch($action){
-                case 'dashboard':
-                    $controller = Routing::$routes[$action]['controller'];
-                    $method = Routing::$routes[$action]['action'];
-    
-                    $controller = $controller::getInstance();
-                    $controller->$method();
-                    break;
-                case 'register':
-                case 'login':
-                    $controller = Routing::$routes[$action]['controller'];
-                    $method = Routing::$routes[$action]['action'];
-                    
-                    $controller = $controller::getInstance();
-                    $controller->$method();
-                    break;
-                default:
-                    include 'public/views/404.html';
-                    echo "<h2>404</h2>";
-                    break;
+        
+            // regex UUID
+            $uuidPattern = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/';
+
+            if(array_key_exists($action, self::$routes)){
+                // standardowe trasy
+                $controllerName = self::$routes[$action]['controller'];
+                $method = self::$routes[$action]['action'];
+        
+                $controller = $controllerName::getInstance();
+                $controller->$method();
+            } elseif($action === 'user' && isset($parameters[0]) && preg_match($uuidPattern, $parameters[0])){
+                // dynamiczna trasa z UUID
+                $uuid = $parameters[0];
+                $controller = UserController::getInstance();
+                $controller->profile($uuid); // np. metoda profile($uuid)
+            } else {
+                // 404
+                include 'public/views/404.html';
+                echo "<h2>404 - Page Not Found</h2>";
             }
-    }
+        }        
 }

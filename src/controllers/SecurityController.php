@@ -9,7 +9,6 @@ class SecurityController extends AppController {
 
     public function __construct(){
         $this->userRepository = new UserRepository();
-        session_start(); // start sesji raz w konstruktorze
     }
 
     public function login() {
