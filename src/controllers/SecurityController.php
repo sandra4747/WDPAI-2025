@@ -19,38 +19,16 @@ class SecurityController extends AppController {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
     
-        // limit prób logowania
-        if(!isset($_SESSION['login_attempts'])){
-            $_SESSION['login_attempts'] = 0;
-        }
-        if(!isset($_SESSION['lock_time'])){
-            $_SESSION['lock_time'] = 0;
-        }
-    
-        if($_SESSION['login_attempts'] >= 5 && time() - $_SESSION['lock_time'] < 600){
-            return $this->render("login", [
-                "messages" => "Za dużo nieudanych prób. Spróbuj ponownie za 10 minut."
-            ]);
-        }
-    
         $user = $this->userRepository->getUserByEmail($email);
     
+        // Sprawdzamy czy użytkownik istnieje i czy hasło pasuje
         if(!$user || !password_verify($password, $user['password'])) {
-            $_SESSION['login_attempts']++;
-    
-            if($_SESSION['login_attempts'] >= 5){
-                $_SESSION['lock_time'] = time();
-            }
-    
             return $this->render("login", [
                 "messages" => "Niepoprawny email lub hasło."
             ]);
         }
     
-        // udane logowanie → reset prób
-        $_SESSION['login_attempts'] = 0;
-        $_SESSION['lock_time'] = 0;
-    
+        // Udane logowanie
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         session_regenerate_id(true);
@@ -72,17 +50,14 @@ class SecurityController extends AppController {
         $firstname = $_POST['firstname'] ?? '';
         $lastname = $_POST['lastname'] ?? '';
 
-        // sprawdzenie pustych pól
         if(empty($email) || empty($password) || empty($firstname) || empty($lastname)){
             return $this->render("register", ["messages"=>"Wszystkie pola są wymagane!"]);
         }
 
-        // walidacja email
         if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
             return $this->render("register", ["messages"=>"Niepoprawny format email!"]);
         }
 
-        // walidacja hasła: min 8 znaków, mała i wielka litera, cyfra
         if(strlen($password) < 8 
             || !preg_match('/[A-Z]/', $password) 
             || !preg_match('/[a-z]/', $password) 

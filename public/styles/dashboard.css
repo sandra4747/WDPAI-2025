@@ -1,3 +1,199 @@
-h1 {
-    color: red;
+/* RESET I PODSTAWA */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dashboard-body {
+    background-color: #ffffff !important; /* Wymuszamy białe tło strony */
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #333;
+    padding-bottom: 90px; /* Miejsce na menu dolne */
+}
+
+.dashboard-container {
+    max-width: 600px; /* Węższy układ wygląda bardziej jak aplikacja ze zdjęcia */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.dream-header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.dream-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.piggy-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* PROGRESS BARS */
+.overall-progress-section {
+    margin-bottom: 40px;
+}
+
+.progress-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.main-bar-outer {
+    height: 14px;
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.main-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F65BAA, #C19EEF);
+    border-radius: 10px;
+}
+
+.motivation-quote {
+    font-size: 0.85rem;
+    color: #A0A0A0;
+    margin-top: 12px;
+}
+
+/* ACTION BUTTONS */
+.action-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.action-btn {
+    text-decoration: none;
+    color: #444;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    transition: transform 0.2s;
+}
+
+.pink-bg {
+    background-color: #FDE8F2; /* Ten sam róż co na wzorze */
+}
+
+.action-btn:hover .icon-wrapper {
+    transform: translateY(-3px);
+}
+
+/* GOALS LIST */
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.goal-item-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border: 1px solid #F0F0F0;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    background: white;
+}
+
+.goal-icon {
+    width: 45px;
+    height: 45px;
+    background-color: #FFF0F6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.goal-data {
+    flex-grow: 1;
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.goal-header .perc {
+    color: #BDBDBD;
+    font-size: 0.85rem;
+}
+
+.small-bar-outer {
+    height: 8px;
+    background-color: #F5F5F5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.small-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F65BAA, #C19EEF);
+}
+
+/* BOTTOM NAVIGATION */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 75px;
+    background: white;
+    border-top: 1px solid #F0F0F0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+
+.nav-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #BDBDBD;
+    font-size: 0.7rem;
+}
+
+.nav-item.active {
+    color: #F65BAA;
+}
+
+.nav-icon {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
 }
