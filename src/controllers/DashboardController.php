@@ -9,18 +9,20 @@ class DashboardController extends AppController {
     private $cardsRepository;
 
     public function __construct() {
+        parent::__construct(); 
         $this->cardsRepository = new CardsRepository();
     }
 
-    public function index(?int $id = null) {
-        $cards = [];
+    public function index() {
+        $userId = $_SESSION['user_id'] ?? null;
 
-        if ($id !== null) {
- 
+        if (!$userId) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/login");
+            exit();
         }
 
-        $userRepository = new UserRepository();
-        $users = $userRepository->getUsers();
+        $cards = $this->cardsRepository->getCardsByUserId($userId);
 
         return $this->render('dashboard', ["cards" => $cards]);
     }
@@ -30,27 +32,24 @@ class DashboardController extends AppController {
 
         if($contentType != 'application/json'){
             http_response_code(415);
-            echo json_encode([
-                'status' => 415,
-                'message' => 'Media type not supported'
-            ]);
+            echo json_encode(['status' => 415, 'message' => 'Media type not supported']);
             return;
         }
+        
         if (!$this->isPost()) {
-            http_response_code(485);
-            echo json_encode([
-                'status' => 485,
-                'message' => 'Method not allowed'
-            ]);            
+            http_response_code(405); // Standardowy kod dla błędnej metody to 405
+            echo json_encode(['status' => 405, 'message' => 'Method not allowed']);            
             return;
         }
-        header('Content-Type: application/json');
-        http_response_code(200);
 
+        header('Content-Type: application/json');
         $content = trim(file_get_contents("php://input"));
         $decoded = json_decode($content, true);
-
-        $cards = $this->cardsRepository->getCardByTitle('heart');
+        
+        // Pobieramy to co użytkownik wpisał, zamiast sztywnego 'heart'
+        $searchString = $decoded['search'] ?? '';
+        $cards = $this->cardsRepository->getCardByTitle($searchString);
+        
         echo json_encode($cards);
     }
 }

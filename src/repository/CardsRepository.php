@@ -18,4 +18,18 @@ class CardsRepository extends Repository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCardsByUserId(int $userId): array 
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT * FROM cards 
+            WHERE id = :userId
+        ');
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Zwraca tablicę kart lub pustą tablicę, jeśli nic nie znaleziono
+        return $cards ?: [];
+    }
 }
