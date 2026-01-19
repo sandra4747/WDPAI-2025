@@ -9,3 +9,4 @@ $path = parse_url($path, PHP_URL_PATH);
 
 Routing::run($path);
 
+

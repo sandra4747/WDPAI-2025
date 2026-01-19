@@ -1,16 +1,16 @@
 <?php
 
 require_once 'AppController.php';
-require_once __DIR__ . '/../repository/CardsRepository.php';
+require_once __DIR__ . '/../repository/GoalRepository.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
 
 class DashboardController extends AppController {
 
-    private $cardsRepository;
+    private $goalsRepository;
 
     public function __construct() {
         parent::__construct(); 
-        $this->cardsRepository = new CardsRepository();
+        $this->goalsRepository = new GoalRepository();
     }
 
     public function index() {
@@ -22,9 +22,13 @@ class DashboardController extends AppController {
             exit();
         }
 
-        $cards = $this->cardsRepository->getCardsByUserId($userId);
+        $goals = $this->goalsRepository->getGoalsByUserId($userId);
+        $totalProgress = $this->goalsRepository->getTotalProgress($userId); 
 
-        return $this->render('dashboard', ["cards" => $cards]);
+    return $this->render('dashboard', [
+        "goals" => $goals, 
+        "totalProgress" => $totalProgress 
+    ]);
     }
 
     public function search() {
@@ -48,8 +52,8 @@ class DashboardController extends AppController {
         
         // Pobieramy to co użytkownik wpisał, zamiast sztywnego 'heart'
         $searchString = $decoded['search'] ?? '';
-        $cards = $this->cardsRepository->getCardByTitle($searchString);
+        $goals = $this->goalsRepository->getGoalByTitle($searchString);
         
-        echo json_encode($cards);
+        echo json_encode($goals);
     }
 }
