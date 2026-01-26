@@ -34,19 +34,32 @@ class GoalController extends AppController {
                         dirname(__DIR__).self::UPLOAD_DIRECTORY . $imagePath
                     );
                 } else {
-                    return $this->render('add_goal', ['messages' => $this->messages]);
+                    $categories = $this->goalRepository->getCategories();
+                    return $this->render('add_goal', [
+                        'messages' => $this->messages,
+                        'categories' => $categories
+                    ]);
                 }
             }
 
             // Zapis do bazy 
-            $this->goalRepository->addGoal($_POST, $imagePath, $_SESSION['user_id']);
-            
-            $url = "http://" . $_SERVER['HTTP_HOST'];
-            header("Location: {$url}/dashboard");
-            exit(); 
-        }
+            $userId = $_SESSION['user_id'] ?? null; 
 
-        return $this->render('add_goal', ['messages' => $this->messages]);
+            if ($userId) {
+                $this->goalRepository->addGoal($_POST, $imagePath, $userId);
+                
+                $url = "http://" . $_SERVER['HTTP_HOST'];
+                header("Location: {$url}/dashboard");
+                exit(); 
+            }
+        }
+        
+        $categories = $this->goalRepository->getCategories();
+
+        return $this->render('add_goal', [
+            'messages' => $this->messages,
+            'categories' => $categories
+        ]);
     }
 
     private function validate(array $file): bool

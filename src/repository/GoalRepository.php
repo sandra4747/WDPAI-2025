@@ -57,4 +57,14 @@ class GoalRepository extends Repository {
             $imagePath
         ]);
     }
+
+    public function getCategories(): array
+    {
+         $stmt = $this->database->connect()->prepare('
+            SELECT * FROM categories ORDER BY id ASC
+        ');
+        $stmt->execute();
+        
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -1,0 +1,268 @@
+:root {
+    --primary-pink: #F472B6;
+    --light-pink: #FCE7F3;
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --input-bg: #F8F9FA;
+    --white: #FFFFFF;
+    --radius: 16px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--white);
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.form-container {
+    padding: 20px;
+    padding-bottom: 100px; /* Miejsce na dolną nawigację */
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* --- Nagłówek --- */
+.form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.spacer { width: 24px; }
+
+/* --- Formularz --- */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* Style Inputów */
+.input-field {
+    background-color: var(--input-bg);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    width: 100%;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--light-pink);
+    background-color: #fff;
+}
+
+/* Select z własną strzałką */
+.select-wrapper {
+    position: relative;
+}
+
+.select-field {
+    appearance: none; /* Ukrywa domyślną strzałkę */
+    cursor: pointer;
+}
+
+.chevron-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Wiersz z dwoma polami */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group.half {
+    flex: 1;
+}
+
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-suffix input {
+    padding-right: 50px; /* Miejsce na tekst PLN */
+}
+
+.suffix {
+    position: absolute;
+    right: 16px;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    pointer-events: none;
+}
+
+/* --- Upload Box --- */
+.upload-box {
+    border: 2px dashed #E5E7EB;
+    background-color: #FAFAFA;
+    border-radius: var(--radius);
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-box:hover {
+    background-color: var(--light-pink);
+    border-color: var(--primary-pink);
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-circle {
+    background-color: var(--light-pink);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.file-name {
+    font-size: 0.8rem;
+    color: var(--primary-pink);
+}
+
+/* --- Karta Predykcji --- */
+.prediction-card {
+    background: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 100%);
+    padding: 24px;
+    border-radius: var(--radius);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #FBCFE8; /* Delikatna ramka */
+}
+
+.prediction-icon {
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.prediction-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.prediction-label {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    margin-bottom: 4px;
+}
+
+.prediction-value {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.prediction-subtext {
+    font-size: 0.8rem;
+    color: var(--primary-pink);
+    margin-top: 2px;
+}
+
+/* --- Przycisk Zapisz --- */
+.save-btn {
+    background-color: var(--primary-pink);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
+}
+
+.save-btn:hover {
+    background-color: #EC4899;
+}
+
+/* --- Dolna Nawigacja --- */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    z-index: 100;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.nav-item.active .nav-icon-highlight {
+    background-color: var(--primary-pink);
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(244, 114, 182, 0.4);
+    transform: translateY(-10px); 
+}
