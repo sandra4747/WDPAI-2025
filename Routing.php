@@ -23,6 +23,10 @@ class Routing {
         "addGoal" => [          
             "controller" => "GoalController",
             "action" => "addGoal"
+        ],
+        "addFunds" => [
+            "controller" => "GoalController",
+            "action" => "addFunds"
         ]
         ];
 

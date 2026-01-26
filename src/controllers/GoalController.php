@@ -76,4 +76,34 @@ class GoalController extends AppController {
 
         return true;
     }
+
+    public function addFunds()
+    {
+        // Sprawdzenie Fetch API
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+    
+        if ($contentType === 'application/json') {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+    
+            $goalId = (int)$decoded['goal_id'];
+            $amount = (float)$decoded['amount'];
+    
+            if ($goalId && $amount > 0) {
+                
+                $result = $this->goalRepository->depositFunds($goalId, $amount);
+                $newGoalPercent = $result['new_progress'];
+    
+                $newTotalProgress = $this->goalRepository->getTotalProgress($_SESSION['user_id']);
+    
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'success',
+                    'newGoalPercent' => (int)$newGoalPercent,
+                    'newTotalPercent' => (int)$newTotalProgress
+                ]);
+                exit();
+            }
+        }
+    }
 }

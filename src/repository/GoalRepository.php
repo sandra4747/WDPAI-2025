@@ -21,14 +21,21 @@ class GoalRepository extends Repository {
     public function getGoalsByUserId(int $userId): array 
     {
         $stmt = $this->database->connect()->prepare('
-            SELECT * FROM v_goals_details 
-            WHERE user_id = :userId
-        ');
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->execute();
+        SELECT g.*, 
+               c.name as category_name, 
+               c.icon as category_icon,
+               calculate_progress(g.current_amount, g.target_amount) as progress_percentage
+        FROM goals g
+        LEFT JOIN categories c ON g.category_id = c.id
+        WHERE g.user_id = :user_id
+        ORDER BY g.id ASC
+    ');
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-    }
+    $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     public function getTotalProgress(int $userId): int {
         $stmt = $this->database->connect()->prepare('SELECT calculate_total_user_progress(:userId) as total');
@@ -66,5 +73,22 @@ class GoalRepository extends Repository {
         $stmt->execute();
         
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function depositFunds(int $goalId, float $amount): array
+    {
+        $stmt = $this->database->connect()->prepare('
+            UPDATE goals 
+            SET current_amount = current_amount + :amount 
+            WHERE id = :id
+            RETURNING 
+                calculate_progress(current_amount, target_amount) as new_progress
+        ');
+        
+        $stmt->bindParam(':amount', $amount, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $goalId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
