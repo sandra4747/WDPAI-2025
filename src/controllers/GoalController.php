@@ -131,4 +131,23 @@ class GoalController extends AppController {
             }
         }
     }
+
+    public function deleteGoal()
+    {
+        if (!$this->isPost()) {
+            header("Location: /dashboard");
+            exit();
+        }
+    
+        $id = (int)$_POST['id'];
+        
+        $userId = $_SESSION['user_id'] ?? null;
+    
+        if ($id && $userId) {
+             $this->goalRepository->deleteGoal($id, $userId);
+        }
+    
+        header("Location: /dashboard");
+        exit();
+    }
 }

@@ -120,4 +120,17 @@ class GoalRepository extends Repository {
 
         $stmt->execute();
     }
+
+    public function deleteGoal(int $goalId, int $userId)
+    {
+        $stmt = $this->database->connect()->prepare('
+            DELETE FROM goals 
+            WHERE id = :id AND user_id = :uid
+        ');
+        
+        $stmt->bindParam(':id', $goalId, PDO::PARAM_INT);
+        $stmt->bindParam(':uid', $userId, PDO::PARAM_INT); 
+        
+        $stmt->execute();
+    }
 }
