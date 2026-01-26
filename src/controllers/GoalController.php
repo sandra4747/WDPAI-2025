@@ -77,6 +77,31 @@ class GoalController extends AppController {
         return true;
     }
 
+    public function editGoal()
+    {
+        if ($this->isPost()) {
+            $id = $_POST['id'];
+            $this->goalRepository->updateGoal($id, $_POST);
+            
+            header("Location: /dashboard"); 
+            exit();
+        }
+
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: /dashboard");
+            exit();
+        }
+
+        $goal = $this->goalRepository->getGoalById($id);
+        $categories = $this->goalRepository->getCategories(); 
+
+        return $this->render('edit_goal', [
+            'goal' => $goal, 
+            'categories' => $categories
+        ]);
+    }
+
     public function addFunds()
     {
         // Sprawdzenie Fetch API

@@ -91,4 +91,33 @@ class GoalRepository extends Repository {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getGoalById(int $id)
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT * FROM goals WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateGoal(int $id, array $data)
+    {
+        $stmt = $this->database->connect()->prepare('
+            UPDATE goals 
+            SET title = :title, 
+                target_amount = :target_amount, 
+                category_id = :category_id
+            WHERE id = :id
+        ');
+
+        $stmt->bindParam(':title', $data['title']);
+        $stmt->bindParam(':target_amount', $data['target_amount']);
+        $stmt->bindParam(':category_id', $data['category_id']);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
 }

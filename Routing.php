@@ -27,6 +27,10 @@ class Routing {
         "addFunds" => [
             "controller" => "GoalController",
             "action" => "addFunds"
+        ],
+        'editGoal' => [
+            'controller' => 'GoalController',
+            'action' => 'editGoal'
         ]
         ];
 

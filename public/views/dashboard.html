@@ -62,15 +62,13 @@
                 'target' => '🎯'
             ];
         ?>
-
-        <?php foreach ($goals as $goal): ?>
+            <?php foreach ($goals as $goal): ?>
             <div class="goal-item-card">
                 <div class="goal-left-content">
                     <div class="goal-icon">
                         <span>
                             <?php 
                                 $dbIcon = $goal['category_icon'] ?? 'target';
-                                
                                 echo $iconMap[$dbIcon] ?? '🎯'; 
                             ?>
                         </span> 
@@ -84,7 +82,6 @@
                             </span>
                         </div>
                         <div class="small-bar-outer">
-                            
                             <div class="small-bar-fill" 
                                 id="goal-bar-<?= $goal['id'] ?>" 
                                 style="width: <?= (int)($goal['progress_percentage'] ?? 0) ?>%">
@@ -93,9 +90,18 @@
                     </div>
                 </div>
                 
-                <button class="add-funds-btn" data-id="<?= $goal['id'] ?>">
-                    +
-                </button>
+                <div class="goal-actions">
+                    <a href="/editGoal?id=<?= $goal['id'] ?>" class="edit-btn" title="Edytuj cel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#6B7280" viewBox="0 0 256 256">
+                            <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152.05a16,16,0,0,0-4.69,11.31v44.69a16,16,0,0,0,16,16H92.69a16,16,0,0,0,11.31-4.69L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                        </svg>
+                    </a>
+
+                    <button class="add-funds-btn" data-id="<?= $goal['id'] ?>">
+                        +
+                    </button>
+                </div>
+
             </div>
         <?php endforeach; ?>
         <?php endif; ?>
