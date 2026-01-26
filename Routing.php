@@ -2,6 +2,7 @@
 
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/GoalController.php';
 
 
 class Routing {
@@ -18,8 +19,11 @@ class Routing {
         "dashboard" => [
             "controller" => "DashboardController",
             "action" => "index"
+        ],
+        "addGoal" => [          
+            "controller" => "GoalController",
+            "action" => "addGoal"
         ]
-
         ];
 
         public static function run(string $path){
@@ -43,7 +47,7 @@ class Routing {
                 // dynamiczna trasa z UUID
                 $uuid = $parameters[0];
                 $controller = UserController::getInstance();
-                $controller->profile($uuid); // np. metoda profile($uuid)
+                $controller->profile($uuid); 
             } else {
                 // 404
                 include 'public/views/404.html';

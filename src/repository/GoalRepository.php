@@ -36,4 +36,25 @@ class GoalRepository extends Repository {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
     }
+
+    public function addGoal(array $data, ?string $imagePath, int $userId): void
+    {
+        $stmt = $this->database->connect()->prepare('
+            INSERT INTO goals (user_id, category_id, title, target_amount, current_amount, target_date, image_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ');
+
+        // Obsługa pustej daty
+        $targetDate = empty($data['target_date']) ? null : $data['target_date'];
+
+        $stmt->execute([
+            $userId,               
+            (int)$data['category_id'],
+            $data['title'],
+            $data['target_amount'],
+            0,                     
+            $targetDate,
+            $imagePath
+        ]);
+    }
 }
