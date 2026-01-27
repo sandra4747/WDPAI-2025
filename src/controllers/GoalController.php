@@ -85,10 +85,13 @@ class GoalController extends AppController {
     {
         if ($this->isPost()) {
             $id = (int) $_POST['id'];
-
-            // Używamy DTO przy edycji
-            $goalDTO = new GoalDTO($_POST);
-
+            
+            $data = $_POST;
+            if(!isset($data['amount'])) {
+                $data['amount'] = $data['target_amount'] ?? 0;
+            }
+    
+            $goalDTO = new GoalDTO($data);
             $this->goalRepository->updateGoal($id, $goalDTO);
             
             header("Location: /dashboard"); 
@@ -101,8 +104,15 @@ class GoalController extends AppController {
             exit();
         }
 
+        // Tu dostajesz obiekt GoalDTO
         $goal = $this->goalRepository->getGoalById($id);
         $categories = $this->goalRepository->getCategories(); 
+
+        if (!$goal) {
+            // Jeśli nie znalazło celu, wróć na dashboard
+            header("Location: /dashboard");
+            exit();
+        }
 
         return $this->render('edit_goal', [
             'goal' => $goal, 

@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ .'/../dto/UserDTO.php';
 
 class SecurityController extends AppController {
 
@@ -12,31 +13,32 @@ class SecurityController extends AppController {
     }
 
     public function login() {
-        if(!$this->isPost()){ 
+        if (!$this->isPost()) {
             return $this->render("login");
         }
     
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
     
+        // Repozytorium zwraca obiekt UserDTO lub null
         $user = $this->userRepository->getUserByEmail($email);
     
-        // Sprawdzamy czy użytkownik istnieje i czy hasło pasuje
-        if(!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user->password)) {
             return $this->render("login", [
                 "messages" => "Niepoprawny email lub hasło."
             ]);
         }
     
-        // Udane logowanie
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_email'] = $user->email;
+        $_SESSION['user_name'] = $user->name;
+        
         session_regenerate_id(true);
     
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");
         exit();
-    }    
+    }
 
     public function register() {
         

@@ -1,20 +1,28 @@
 <?php
 
 require_once 'Repository.php';
-// Import DTO (opcjonalny jeśli autoloader działa, ale dobra praktyka)
 require_once __DIR__ .'/../dto/GoalDTO.php';
 
 class GoalRepository extends Repository {
 
-    // ... metody getGoalByTitle, getGoalsByUserId, getTotalProgress BEZ ZMIAN ...
 
-    public function getGoalByTitle(string $searchString)
+    public function getGoalByTitle(string $searchString): array
     {
         $searchString = '%' . strtolower($searchString) . '%';
         $stmt = $this->database->connect()->prepare('SELECT * FROM v_goals_details WHERE LOWER(title) LIKE :search');
         $stmt->bindParam(':search', $searchString, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $rawGoals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $goalObjects = [];
+        
+        foreach ($rawGoals as $rawGoal) {
+            // Dopasowujemy klucze pod konstruktor DTO (jeśli trzeba)
+            $rawGoal['amount'] = $rawGoal['target_amount'];
+            $goalObjects[] = new GoalDTO($rawGoal);
+        }
+        
+        return $goalObjects;
     }
 
     public function getGoalsByUserId(int $userId): array 
@@ -30,17 +38,12 @@ class GoalRepository extends Repository {
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Pobieramy surowe dane
         $rawGoals = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Przepakowujemy je w obiekty DTO
         $goalObjects = [];
         foreach ($rawGoals as $rawGoal) {
-            // Dodajemy brakujące klucze, których oczekuje konstruktor DTO
-            // (bo np. w bazie kolumna nazywa się 'target_amount', a w formularzu mogła być 'amount')
             $rawGoal['amount'] = $rawGoal['target_amount'];
             
-            // Tworzymy obiekt
             $goalObjects[] = new GoalDTO($rawGoal);
         }
 
@@ -54,7 +57,6 @@ class GoalRepository extends Repository {
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
     }
 
-    // --- ZMIANA: Przyjmujemy GoalDTO zamiast array i luźnych zmiennych ---
     public function addGoal(GoalDTO $goal): void
     {
         $stmt = $this->database->connect()->prepare('
@@ -62,18 +64,16 @@ class GoalRepository extends Repository {
             VALUES (:user_id, :category_id, :title, :target_amount, 0, :target_date, :image_path)
         ');
 
-        // Używamy danych z obiektu DTO
         $stmt->bindParam(':user_id', $goal->userId, PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $goal->categoryId, PDO::PARAM_INT);
         $stmt->bindParam(':title', $goal->title, PDO::PARAM_STR);
         $stmt->bindParam(':target_amount', $goal->targetAmount, PDO::PARAM_STR);
-        $stmt->bindParam(':target_date', $goal->targetDate, PDO::PARAM_STR); // Może być null, PDO to obsłuży
+        $stmt->bindParam(':target_date', $goal->targetDate, PDO::PARAM_STR); 
         $stmt->bindParam(':image_path', $goal->imagePath, PDO::PARAM_STR);
 
         $stmt->execute();
     }
 
-    // ... metoda getCategories BEZ ZMIAN ...
     public function getCategories(): array
     {
          $stmt = $this->database->connect()->prepare('SELECT * FROM categories ORDER BY id ASC');
@@ -81,7 +81,6 @@ class GoalRepository extends Repository {
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ... metoda depositFunds BEZ ZMIAN ...
     public function depositFunds(int $goalId, float $amount): array
     {
         $stmt = $this->database->connect()->prepare('
@@ -94,16 +93,23 @@ class GoalRepository extends Repository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // ... metoda getGoalById BEZ ZMIAN ...
-    public function getGoalById(int $id)
+    public function getGoalById(int $id): ?GoalDTO
     {
         $stmt = $this->database->connect()->prepare('SELECT * FROM goals WHERE id = :id');
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        $rawGoal = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$rawGoal) {
+            return null;
+        }
+
+        // Dopasowujemy klucze
+        $rawGoal['amount'] = $rawGoal['target_amount'];
+        return new GoalDTO($rawGoal);
     }
 
-    // --- ZMIANA: Przyjmujemy GoalDTO ---
     public function updateGoal(int $id, GoalDTO $goal)
     {
         $stmt = $this->database->connect()->prepare('
@@ -114,6 +120,7 @@ class GoalRepository extends Repository {
             WHERE id = :id
         ');
 
+        // Używamy właściwości z DTO
         $stmt->bindParam(':title', $goal->title);
         $stmt->bindParam(':target_amount', $goal->targetAmount);
         $stmt->bindParam(':category_id', $goal->categoryId);
@@ -122,7 +129,6 @@ class GoalRepository extends Repository {
         $stmt->execute();
     }
 
-    // ... reszta metod (deleteGoal, getGoalLogs) BEZ ZMIAN ...
     public function deleteGoal(int $goalId, int $userId)
     {
         $stmt = $this->database->connect()->prepare('DELETE FROM goals WHERE id = :id AND user_id = :uid');

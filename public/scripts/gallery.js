@@ -45,37 +45,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function fillModal(goal, logs) {
-        // A. Wypełnij teksty
+        // A. Wypełnij teksty - ZMIANA NA camelCase (zgodnie z DTO)
         document.getElementById("modal-title").innerText = goal.title;
-        const missing = goal.target_amount - goal.current_amount;
-        document.getElementById("modal-missing").innerText = missing > 0 ? `${missing} PLN` : "Cel osiągnięty!";
         
-        // B. Pasek
-        const perc = Math.min(100, (goal.current_amount / goal.target_amount) * 100);
+        // Zmieniamy z target_amount na targetAmount oraz current_amount na currentAmount
+        const target = parseFloat(goal.targetAmount) || 0;
+        const current = parseFloat(goal.currentAmount) || 0;
+        const missing = target - current;
+
+        document.getElementById("modal-missing").innerText = missing > 0 ? `${missing.toFixed(2)} PLN` : "Cel osiągnięty! 🎉";
+        
+        // B. Pasek - ZMIANA NA camelCase
+        const perc = target > 0 ? Math.min(100, (current / target) * 100) : 0;
         document.getElementById("modal-bar").style.width = `${perc}%`;
 
         // C. Kalkulator
         const calcInput = document.getElementById("calc-monthly");
         const calcResult = document.getElementById("calc-result-text");
         
+        // Czyścimy poprzedni wynik kalkulatora przy otwarciu nowego celu
+        calcInput.value = "";
+        calcResult.innerText = missing > 0 ? "Wpisz kwotę, aby obliczyć datę." : "Cel już został zrealizowany!";
+
         calcInput.oninput = () => {
             const monthly = parseFloat(calcInput.value);
             if(monthly > 0 && missing > 0) {
                 const months = Math.ceil(missing / monthly);
-                // Oblicz datę: Dzisiaj + X miesięcy
                 const date = new Date();
                 date.setMonth(date.getMonth() + months);
                 calcResult.innerText = `Cel osiągniesz: ${date.toLocaleDateString()} (za ${months} mies.)`;
                 calcResult.style.color = "#FF0080";
+            } else if (missing <= 0) {
+                calcResult.innerText = "Nic więcej nie musisz wpłacać!";
             } else {
                 calcResult.innerText = "Wpisz poprawną kwotę.";
+                calcResult.style.color = "#666";
             }
         };
 
         // D. Kalendarz (Renderowanie ostatnich 30 dni)
         renderCalendar(logs);
     }
-
+    
     function renderCalendar(logs) {
         const calendarContainer = document.getElementById("mini-calendar");
         calendarContainer.innerHTML = ""; // Czyścimy

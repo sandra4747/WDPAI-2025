@@ -23,11 +23,11 @@
 
         <form action="/editGoal" method="POST" enctype="multipart/form-data" class="modern-form">
     
-            <input type="hidden" name="id" value="<?= $goal['id']; ?>">
+            <input type="hidden" name="id" value="<?= $goal->id; ?>">
         
             <div class="form-group">
                 <label>Nazwa</label>
-                <input type="text" name="title" class="input-field" value="<?= $goal['title']; ?>" required>
+                <input type="text" name="title" class="input-field" value="<?= $goal->title; ?>" required>
             </div>
         
             <div class="form-group">
@@ -36,7 +36,7 @@
                     <select name="category_id" class="input-field select-field">
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['id']; ?>" 
-                                <?php if($category['id'] == $goal['category_id']) echo 'selected'; ?>>
+                                <?php if($category['id'] == $goal->categoryId) echo 'selected'; ?>>
                                 <?= $category['name']; ?>
                             </option>
                         <?php endforeach; ?>
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label>Cena docelowa</label>
                 <div class="input-with-suffix">
-                    <input type="number" name="target_amount" class="input-field" value="<?= $goal['target_amount']; ?>" step="0.01">
+                    <input type="number" name="target_amount" class="input-field" value="<?= $goal->targetAmount; ?>" step="0.01">
                     <span class="suffix">PLN</span>
                 </div>
             </div>

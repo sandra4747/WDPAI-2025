@@ -7,7 +7,7 @@ class UserDTO {
     public string $name;
     public string $surname;
 
-    public function __construct($id, $email, $password, $name, $surname) {
+    public function __construct(int $id, string $email, string $password, string $name, string $surname) {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;

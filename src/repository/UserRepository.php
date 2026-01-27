@@ -44,15 +44,33 @@ class UserRepository extends Repository
         }
     }
 
-    public function getUserByEmail(string $email) {
+    public function getUserByEmail(string $email): ?UserDTO {
         $stmt = $this->database->connect()->prepare('
-            SELECT * FROM users u 
-            LEFT JOIN profiles p ON u.id = p.user_id 
+            SELECT 
+                u.id, 
+                u.email, 
+                u.password, 
+                p.first_name, 
+                p.last_name 
+            FROM users u
+            LEFT JOIN profiles p ON u.id = p.user_id
             WHERE u.email = :email
         ');
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$user) {
+            return null;
+        }
+    
+        return new UserDTO(
+            $user['id'],
+            $user['email'],
+            $user['password'],
+            $user['first_name'] ?? '', 
+            $user['last_name'] ?? ''
+        );
     }
 }
