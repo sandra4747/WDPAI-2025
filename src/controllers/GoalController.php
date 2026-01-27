@@ -15,6 +15,8 @@ class GoalController extends AppController {
 
     public function __construct()
     {
+        $this->checkLogin();
+        
         parent::__construct();
         $this->goalRepository = new GoalRepository();
     }

@@ -14,6 +14,9 @@ class DashboardController extends AppController {
     }
 
     public function index() {
+
+        $this->checkLogin();
+        
         $userId = $_SESSION['user_id'] ?? null;
 
         if (!$userId) {
