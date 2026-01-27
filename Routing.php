@@ -52,6 +52,10 @@ class Routing {
         'profile' => [
             'controller' => 'UserController',
              'action' => 'profile'
+        ],
+        'updateProfile' => [
+            'controller' => 'UserController',
+            'action' => 'updateProfile'
         ]
         ];
 

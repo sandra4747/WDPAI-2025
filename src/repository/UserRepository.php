@@ -89,7 +89,37 @@ class UserRepository extends Repository
             (int)$data['id'],
             $data['email'],
             $data['first_name'] ?? '',
-            $data['last_name'] ?? ''
-        );
+            $data['last_name'] ?? '',
+            $data['avatar_url'] ?? null        );
+    }
+
+    public function updateUserProfile(int $id, string $name, string $surname, string $email, ?string $avatarUrl): void 
+    {
+        $db = $this->database->connect();
+        
+        try {
+            $db->beginTransaction();
+
+            // Aktualizacja tabeli users (email) - A1: Prepared Statements
+            $stmt1 = $db->prepare('UPDATE users SET email = :email WHERE id = :id');
+            $stmt1->execute([':email' => $email, ':id' => $id]);
+
+            // Aktualizacja tabeli profiles (imię, nazwisko, avatar)
+            $stmt2 = $db->prepare('
+                UPDATE profiles SET first_name = :name, last_name = :surname, avatar_url = :avatar 
+                WHERE user_id = :id
+            ');
+            $stmt2->execute([
+                ':name' => $name,
+                ':surname' => $surname,
+                ':avatar' => $avatarUrl,
+                ':id' => $id
+            ]);
+
+            $db->commit();
+        } catch (Exception $e) {
+            if ($db->inTransaction()) $db->rollBack();
+            throw $e;
+        }
     }
 }

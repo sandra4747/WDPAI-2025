@@ -1,0 +1,107 @@
+/* profile.css */
+
+/* Kontener główny - centrowanie formularza na ekranie */
+.profile-form-container {
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 15px;
+    /* Subtelny cień dla efektu uniesienia */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    /* Margines dolny, żeby nawigacja nie zasłaniała przycisku */
+    margin-bottom: 120px;
+}
+
+/* Tytuł sekcji */
+.profile-form-container h2 {
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    text-align: center;
+}
+
+/* Układ formularza */
+.simple-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Styl etykiet i pól wejściowych */
+.simple-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.simple-form input {
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-family: inherit; /* Czcionka z main.css */
+    font-size: 1rem;
+    color: #1f2937;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efekt po kliknięciu w pole */
+.simple-form input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Pola zablokowane (email) */
+.simple-form input:disabled {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+}
+
+/* Przycisk zapisu */
+.update-btn {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+.update-btn:hover {
+    opacity: 0.9;
+}
+
+.update-btn:active {
+    transform: scale(0.98);
+}
+
+/* Komunikat o sukcesie */
+.success-msg {
+    background-color: #ecfdf5;
+    color: #065f46;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #a7f3d0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Dopasowanie do urządzeń mobilnych */
+@media (max-width: 480px) {
+    .profile-form-container {
+        margin: 20px;
+        padding: 20px;
+    }
+}

@@ -2,41 +2,144 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Mój Profil | DreamBo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamBo | Profil</title>
     <link rel="stylesheet" href="/public/styles/main.css">
     <link rel="stylesheet" href="/public/styles/dashboard.css">
+    <link rel="stylesheet" href="/public/styles/profile.css">
+
+    <style>
+        /* Minimalistyczne poprawki tylko dla formularza */
+        .profile-form-container {
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .simple-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .simple-form label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+        .simple-form input {
+            padding: 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        .simple-form input:disabled {
+            background-color: #F3F4F6;
+            color: #9CA3AF;
+            cursor: not-allowed;
+        }
+        .update-btn {
+            background-color: #111827;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .update-btn:hover {
+            background-color: #1F2937;
+        }
+        .success-msg {
+            color: #059669;
+            background: #D1FAE5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body class="dashboard-body">
-    <main class="dashboard-container">
-        <header class="dream-header">
-            <div class="dream-logo">
-                <span>DreamBo</span>
-            </div>
-            <a href="/logout" class="logout-minimal-btn">Wyloguj</a>
-        </header>
 
-        <section class="profile-section">
-            <h2>Twój Profil</h2>
-            <div class="profile-card">
-                <div class="profile-info">
-                    <label>Imię i nazwisko:</label>
-                    <span><?= htmlspecialchars($user->firstName . ' ' . $user->lastName) ?></span>
-                </div>
-                <div class="profile-info">
-                    <label>Adres e-mail:</label>
-                    <span><?= htmlspecialchars($user->email) ?></span>
-                </div>
-            </div>
+<main class="dashboard-container">
+    
+    <header class="dream-header">
+        <div class="dream-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
+                <path d="M192,116a12,12,0,1,1-12-12A12,12,0,0,1,192,116ZM152,64H112a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm96,48v32a24,24,0,0,1-24,24h-2.36l-16.21,45.38A16,16,0,0,1,190.36,224H177.64a16,16,0,0,1-15.07-10.62L160.65,208h-57.3l-1.92,5.38A16,16,0,0,1,86.36,224H73.64a16,16,0,0,1-15.07-10.62L46,178.22a87.69,87.69,0,0,1-21.44-48.38A16,16,0,0,0,16,144a8,8,0,0,1-16,0,32,32,0,0,1,24.28-31A88.12,88.12,0,0,1,112,32H216a8,8,0,0,1,0,16H194.61a87.93,87.93,0,0,1,30.17,37c.43,1,.85,2,1.25,3A24,24,0,0,1,248,112Zm-16,0a8,8,0,0,0-8-8h-3.66a8,8,0,0,1-7.64-5.6A71.9,71.9,0,0,0,144,48H112A72,72,0,0,0,58.91,168.64a8,8,0,0,1,1.64,2.71L73.64,208H86.36l3.82-10.69A8,8,0,0,1,97.71,192h68.58a8,8,0,0,1,7.53,5.31L177.64,208h12.72l18.11-50.69A8,8,0,0,1,216,152h8a8,8,0,0,0,8-8Z"></path>
+            </svg> 
+            <span>DreamBo | Profil</span>
+        </div>
+    </header>
+
+    <section class="profile-form-container">
+        <h2 class="section-title">Twoje Dane</h2>
+    
+        <form id="profileForm" action="/updateProfile" method="POST" enctype="multipart/form-data" class="simple-form">
+                <label>
+                <span>Zdjęcie profilowe</span>
+                <input type="file" name="file" disabled> </label>
             
-            <a href="/dashboard" class="back-btn">Powrót do dashboardu</a>
-        </section>
-    </main>
+                <?php if ($user->avatarUrl): ?>
+                    <img src="/public/uploads/<?= $user->avatarUrl ?>" class="profile-preview">
+                <?php endif; ?>
 
-    <nav class="mobile-nav">
-        <a href="/dashboard" class="nav-item">
-            <svg>...</svg> </a>
-        <a href="/profile" class="nav-item active">
-            <svg>...</svg> </a>
-    </nav>
+            <label>
+                <span>Imię</span>
+                <input type="text" name="name" value="<?= htmlspecialchars($user->name) ?>" disabled required>
+            </label>
+    
+            <label>
+                <span>Nazwisko</span>
+                <input type="text" name="surname" value="<?= htmlspecialchars($user->surname) ?>" disabled required>
+            </label>
+    
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" value="<?= htmlspecialchars($user->email) ?>" disabled required>
+            </label>
+    
+            <div class="btn-row" style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" id="editBtn" class="update-btn" style="background-color: #6B7280;">
+                    Edytuj dane
+                </button>
+                
+                <button type="submit" id="saveBtn" class="update-btn" style="display: none; flex: 1;">
+                    Zapisz zmiany
+                </button>
+            </div>
+        </form>
+    </section>
+    
+    <script>
+    document.getElementById('editBtn').addEventListener('click', function() {
+        // 1. Odblokowujemy wszystkie inputy
+        const inputs = document.querySelectorAll('#profileForm input');
+        inputs.forEach(input => input.disabled = false);
+    
+        // 2. Podmieniamy przyciski
+        this.style.display = 'none';
+        document.getElementById('saveBtn').style.display = 'block';
+    });
+    </script>
+</main>
+
+<nav class="mobile-nav">
+    <a href="/dashboard" class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V160h32v56a8,8,0,0,0,8,8h64a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z"></path></svg>
+    </a>
+    <a href="/profile" class="nav-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>
+    </a>
+    <a href="/logout" class="nav-item logout-link-style">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#EF4444" viewBox="0 0 256 256">
+            <path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L196.69,120H104a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,221.66,122.34Z"></path>
+        </svg>
+    </a>
+</nav>
+
 </body>
 </html>
+
