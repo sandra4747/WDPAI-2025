@@ -21,7 +21,6 @@ class SecurityController extends AppController {
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
     
-        // Repozytorium zwraca obiekt UserDTO lub null
         $user = $this->userRepository->getUserByEmail($email);
     
         if (!$user || !password_verify($password, $user->password)) {
@@ -52,7 +51,6 @@ class SecurityController extends AppController {
         $firstname = $_POST['firstname'] ?? '';
         $lastname = $_POST['lastname'] ?? '';
     
-        // Walidacja (bez zmian, bo to rola kontrolera)
         if(empty($email) || empty($password) || empty($firstname) || empty($lastname)){
             return $this->render("register", ["messages"=>"Wszystkie pola są wymagane!"]);
         }
@@ -76,12 +74,9 @@ class SecurityController extends AppController {
             return $this->render("register", ["messages"=>"Użytkownik z tym emailem już istnieje!"]);
         }
     
-        // --- TUTAJ ZMIANY ---
         
-        // 1. Hashujemy hasło
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     
-        // 2. Pakujemy dane w Registration DTO
         $userDto = new UserRegistrationDTO(
             $email,
             $hashedPassword,
@@ -89,9 +84,17 @@ class SecurityController extends AppController {
             $lastname
         );
     
-        // 3. Przekazujemy JEDEN obiekt do repozytorium
         $this->userRepository->createUser($userDto);
     
         return $this->render("login", ["messages"=>"Rejestracja zakończona sukcesem. Zaloguj się."]);
+    }
+
+    public function logout() {
+        session_unset(); // Usuwamy wszystkie zmienne sesyjne
+        session_destroy(); // Niszczymy sesję
+    
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
+        exit();
     }
 }
