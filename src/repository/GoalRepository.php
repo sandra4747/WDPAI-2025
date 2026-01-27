@@ -116,19 +116,21 @@ class GoalRepository extends Repository {
             UPDATE goals 
             SET title = :title, 
                 target_amount = :target_amount, 
-                category_id = :category_id
+                category_id = :category_id,
+                image_path = :image_path
             WHERE id = :id
         ');
-
-        // Używamy właściwości z DTO
-        $stmt->bindParam(':title', $goal->title);
-        $stmt->bindParam(':target_amount', $goal->targetAmount);
-        $stmt->bindParam(':category_id', $goal->categoryId);
+    
+        // Bindujemy wszystkie parametry z obiektu DTO
+        $stmt->bindParam(':title', $goal->title, PDO::PARAM_STR);
+        $stmt->bindParam(':target_amount', $goal->targetAmount, PDO::PARAM_STR);
+        $stmt->bindParam(':category_id', $goal->categoryId, PDO::PARAM_INT);
+        $stmt->bindParam(':image_path', $goal->imagePath, PDO::PARAM_STR); // <--- TO DODAJEMY
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
+    
         $stmt->execute();
     }
-
+    
     public function deleteGoal(int $goalId, int $userId)
     {
         $stmt = $this->database->connect()->prepare('DELETE FROM goals WHERE id = :id AND user_id = :uid');

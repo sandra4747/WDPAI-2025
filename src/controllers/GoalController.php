@@ -16,7 +16,6 @@ class GoalController extends AppController {
     public function __construct()
     {
         $this->checkLogin();
-        
         parent::__construct();
         $this->goalRepository = new GoalRepository();
     }
@@ -24,8 +23,6 @@ class GoalController extends AppController {
     public function addGoal()
     {
         if ($this->isPost()) {
-            
-            // 1. Obsługa pliku (Upload)
             $imagePath = null;
             if (isset($_FILES['image']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
                 if ($this->validate($_FILES['image'])) {
@@ -44,29 +41,77 @@ class GoalController extends AppController {
             }
 
             $userId = $_SESSION['user_id'] ?? null; 
-
             if ($userId) {
-                // 2. TWORZENIE DTO (To zostawiamy, bo to dobra praktyka!)
                 $goalData = $_POST;
                 $goalData['user_id'] = $userId;
                 $goalData['image_path'] = $imagePath;
 
                 $goalDTO = new GoalDTO($goalData);
-
-                // Wysyłamy obiekt do repozytorium
                 $this->goalRepository->addGoal($goalDTO);
                 
-                $url = "http://" . $_SERVER['HTTP_HOST'];
-                header("Location: {$url}/dashboard");
+                header("Location: /dashboard");
                 exit(); 
             }
         }
         
         $categories = $this->goalRepository->getCategories();
-
         return $this->render('add_goal', [
             'messages' => $this->messages,
             'categories' => $categories
+        ]);
+    }
+
+    public function editGoal()
+    {
+        // TRASA POST - Zapisywanie zmian
+        if ($this->isPost()) {
+            $id = (int) $_POST['id'];
+            
+            // 1. Pobieramy stary cel, by zachować zdjęcie jeśli nie wgrano nowego
+            $currentGoal = $this->goalRepository->getGoalById($id);
+            $imagePath = $currentGoal->imagePath;
+
+            // 2. Obsługa nowego pliku
+            if (isset($_FILES['image']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
+                if ($this->validate($_FILES['image'])) {
+                    $imagePath = time() . '_' . $_FILES['image']['name']; 
+                    move_uploaded_file(
+                        $_FILES['image']['tmp_name'], 
+                        dirname(__DIR__).self::UPLOAD_DIRECTORY . $imagePath
+                    );
+                }
+            }
+
+            $data = $_POST;
+            $data['amount'] = $_POST['target_amount'] ?? 0;
+            $data['image_path'] = $imagePath;
+
+            $goalDTO = new GoalDTO($data);
+            $this->goalRepository->updateGoal($id, $goalDTO);
+            
+            header("Location: /dashboard"); 
+            exit();
+        }
+
+        // TRASA GET - Wyświetlanie formularza
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header("Location: /dashboard");
+            exit();
+        }
+
+        $goal = $this->goalRepository->getGoalById((int)$id);
+        $categories = $this->goalRepository->getCategories();
+
+        if (!$goal) {
+            header("Location: /dashboard");
+            exit();
+        }
+
+        return $this->render('edit_goal', [
+            'goal' => $goal, 
+            'categories' => $categories,
+            'messages' => $this->messages
         ]);
     }
 
@@ -83,64 +128,12 @@ class GoalController extends AppController {
         return true;
     }
 
-    public function editGoal()
-    {
-        if ($this->isPost()) {
-            $id = (int) $_POST['id'];
-            
-            $data = $_POST;
-            if(!isset($data['amount'])) {
-                $data['amount'] = $data['target_amount'] ?? 0;
-            }
-    
-            $goalDTO = new GoalDTO($data);
-            $this->goalRepository->updateGoal($id, $goalDTO);
-            
-            header("Location: /dashboard"); 
-            exit();
-        }
-
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header("Location: /dashboard");
-            exit();
-        }
-
-        // Tu dostajesz obiekt GoalDTO
-        $goal = $this->goalRepository->getGoalById($id);
-        $categories = $this->goalRepository->getCategories(); 
-
-        if (!$goal) {
-            // Jeśli nie znalazło celu, wróć na dashboard
-            header("Location: /dashboard");
-            exit();
-        }
-
-        return $this->render('edit_goal', [
-            'goal' => $goal, 
-            'categories' => $categories
-        ]);
-    }
-
     public function gallery()
     {
         $userId = $_SESSION['user_id'] ?? null;
-        if (!$userId) {
-            header("Location: /login");
-            exit();
-        }
-
-        // Pobieramy cele
         $goals = $this->goalRepository->getGoalsByUserId($userId);
-
-        // UWAGA: Usunąłem stąd logikę mapek/ikonek, 
-        // ponieważ zostawiłaś ją w pliku widoku (gallery.php).
-        // Kontroler tylko przekazuje dane.
-
         $this->render('gallery', ['goals' => $goals]);
     }
-
-    // --- Metody bez zmian ---
 
     public function addFunds()
     {
