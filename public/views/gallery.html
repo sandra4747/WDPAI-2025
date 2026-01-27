@@ -34,17 +34,18 @@
 
     <div class="gallery-grid" id="gallery-grid">
         <?php foreach ($goals as $goal): ?>
-            <div class="modern-card gallery-item" data-id="<?= $goal['id'] ?>">
+            <div class="modern-card gallery-item" data-id="<?= $goal->id ?>">
                 
                 <div class="card-image-container">
-                    <?php if (!empty($goal['image'])): ?>
-                        <img src="/public/uploads/<?= $goal['image'] ?>" alt="Cel" class="card-img">
+                    <?php if (!empty($goal->imagePath)): ?>
+                        <img src="/public/uploads/<?= $goal->imagePath ?>" alt="Cel" class="card-img">
                     <?php else: ?>
                         <div class="card-placeholder-gradient">
                             <span class="placeholder-icon">
                                 <?php 
                                     $iconMap = ['plane'=>'✈️', 'laptop'=>'💻', 'house'=>'🏠', 'car'=>'🚗', 'book'=>'📚', 'target'=>'🎯'];
-                                    $dbIcon = $goal['category_icon'] ?? 'target';
+                                    // ZMIANA: $goal->categoryIcon
+                                    $dbIcon = $goal->categoryIcon ?? 'target';
                                     echo $iconMap[$dbIcon] ?? '🎯'; 
                                 ?>
                             </span>
@@ -54,20 +55,26 @@
 
                 <div class="card-content">
                     <p class="card-category">
-                        <?= htmlspecialchars($goal['category_name'] ?? 'Ogólne') ?>
+                        <?= htmlspecialchars($goal->categoryName ?? 'Ogólne') ?>
                     </p>
                     
-                    <h3 class="card-title"><?= htmlspecialchars($goal['title']) ?></h3>
+                    <h3 class="card-title">
+                        <?= htmlspecialchars($goal->title) ?>
+                    </h3>
                     
-                    <p class="card-amount"><?= number_format($goal['target_amount'], 0, ',', ' ') ?> PLN</p>
+                    <p class="card-amount">
+                        <?= number_format($goal->targetAmount, 0, ',', ' ') ?> PLN
+                    </p>
 
                     <div class="card-progress-section">
                         <div class="progress-labels">
                             <span class="label-saved">Postęp</span>
-                            <span class="label-perc"><?= (int)($goal['progress_percentage'] ?? 0) ?>%</span>
+                            <span class="label-perc">
+                                <?= (int)($goal->progressPercentage ?? 0) ?>%
+                            </span>
                         </div>
                         <div class="modern-bar-bg">
-                            <div class="modern-bar-fill" style="width: <?= (int)($goal['progress_percentage'] ?? 0) ?>%"></div>
+                            <div class="modern-bar-fill" style="width: <?= (int)($goal->progressPercentage ?? 0) ?>%"></div>
                         </div>
                     </div>
                 </div>

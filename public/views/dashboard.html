@@ -6,7 +6,7 @@
     <title>DreamBo | Twoje marzenia</title>
     <link rel="stylesheet" href="/public/styles/main.css">
     <link rel="stylesheet" href="/public/styles/dashboard.css">
-    </head>
+</head>
 <body class="dashboard-body">
 
 <main class="dashboard-container">
@@ -51,8 +51,6 @@
             <p class="empty-msg">Nie masz jeszcze żadnych marzeń. Dodaj swój pierwszy cel!</p>
         <?php else: ?>
         <?php 
-            // Słownik mapujący nazwy z bazy na emotki
-            // To jedyne miejsce konfiguracji wyglądu
             $iconMap = [
                 'plane'  => '✈️',
                 'laptop' => '💻',
@@ -68,37 +66,38 @@
                     <div class="goal-icon">
                         <span>
                             <?php 
-                                $dbIcon = $goal['category_icon'] ?? 'target';
+                                // ZMIANA: używamy -> zamiast ['']
+                                $dbIcon = $goal->categoryIcon ?? 'target';
                                 echo $iconMap[$dbIcon] ?? '🎯'; 
                             ?>
                         </span> 
                     </div>
                     <div class="goal-data">
                         <div class="goal-header">
-                            <span class="title"><?= htmlspecialchars($goal['title']) ?></span>
+                            <span class="title"><?= htmlspecialchars($goal->title) ?></span>
                             
-                            <span class="perc" id="goal-perc-<?= $goal['id'] ?>">
-                                <?= (int)($goal['progress_percentage'] ?? 0) ?>%
+                            <span class="perc" id="goal-perc-<?= $goal->id ?>">
+                                <?= (int)($goal->progressPercentage ?? 0) ?>%
                             </span>
                         </div>
                         <div class="small-bar-outer">
                             <div class="small-bar-fill" 
-                                id="goal-bar-<?= $goal['id'] ?>" 
-                                style="width: <?= (int)($goal['progress_percentage'] ?? 0) ?>%">
+                                id="goal-bar-<?= $goal->id ?>" 
+                                style="width: <?= (int)($goal->progressPercentage ?? 0) ?>%">
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="goal-actions">
-                    <a href="/editGoal?id=<?= $goal['id'] ?>" class="edit-btn" title="Edytuj cel">
+                    <a href="/editGoal?id=<?= $goal->id ?>" class="edit-btn" title="Edytuj cel">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#6B7280" viewBox="0 0 256 256">
                             <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152.05a16,16,0,0,0-4.69,11.31v44.69a16,16,0,0,0,16,16H92.69a16,16,0,0,0,11.31-4.69L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
                         </svg>
                     </a>
                 
                     <form action="/deleteGoal" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć ten cel? Tej operacji nie można cofnąć.');" style="margin:0;">
-                        <input type="hidden" name="id" value="<?= $goal['id'] ?>">
+                        <input type="hidden" name="id" value="<?= $goal->id ?>">
                         <button type="submit" class="delete-btn" title="Usuń cel">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#EF4444" viewBox="0 0 256 256">
                                 <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
@@ -106,7 +105,7 @@
                         </button>
                     </form>
                 
-                    <button class="add-funds-btn" data-id="<?= $goal['id'] ?>">+</button>
+                    <button class="add-funds-btn" data-id="<?= $goal->id ?>">+</button>
                 </div>
             </div>
         <?php endforeach; ?>

@@ -1,102 +1,63 @@
-/* --- public/styles/addGoal.css --- */
+/* --- public/styles/add_goal.css --- */
 
+/* Margines na dole, żeby menu nie zasłaniało formularza */
 .form-container {
     padding: 20px;
-    padding-bottom: 100px;
+    padding-bottom: 120px !important; 
     max-width: 480px;
     margin: 0 auto;
 }
 
-/* --- Nagłówek --- */
+/* --- NAGŁÓWEK --- */
 .form-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
 }
-
-.form-header h1 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 0;
-}
-
+.form-header h1 { font-size: 1.2rem; font-weight: 600; margin: 0; }
 .spacer { width: 24px; }
 
-/* --- Formularz --- */
-.modern-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+/* --- FORMULARZ --- */
+.modern-form { display: flex; flex-direction: column; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 0.9rem; font-weight: 500; color: #333; }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-dark); /* Używamy zmiennej z main.css! */
-}
-
-/* Style Inputów */
+/* INPUTY */
 .input-field {
-    background-color: var(--input-bg);
+    background-color: #F8F9FA;
     border: none;
     border-radius: 12px;
     padding: 16px;
     font-size: 1rem;
-    color: var(--text-dark);
+    color: #333;
     width: 100%;
     box-sizing: border-box;
-    transition: box-shadow 0.3s;
 }
 
 .input-field:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--light-pink);
+    box-shadow: 0 0 0 2px #FCE7F3; /* Jasny róż */
     background-color: #fff;
 }
 
-/* Select z własną strzałką */
-.select-wrapper { position: relative; }
-.select-field { appearance: none; cursor: pointer; }
-
-.chevron-icon {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
+/* Układ */
 .form-row { display: flex; gap: 15px; }
 .form-group.half { flex: 1; }
 
-.input-with-suffix {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
+.select-wrapper { position: relative; }
+.select-field { appearance: none; cursor: pointer; }
+.chevron-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
+.input-with-suffix { position: relative; display: flex; align-items: center; }
 .input-with-suffix input { padding-right: 50px; }
+.suffix { position: absolute; right: 16px; color: #666; font-size: 0.8rem; pointer-events: none; }
 
-.suffix {
-    position: absolute;
-    right: 16px;
-    font-size: 0.8rem;
-    color: var(--text-gray);
-    pointer-events: none;
-}
-
-/* --- Upload Box --- */
+/* --- UPLOAD ZDJĘCIA --- */
 .upload-box {
     border: 2px dashed #E5E7EB;
     background-color: #FAFAFA;
-    border-radius: var(--radius);
+    border-radius: 16px;
     height: 140px;
     display: flex;
     align-items: center;
@@ -104,64 +65,41 @@
     cursor: pointer;
     transition: all 0.3s;
 }
-
-.upload-box:hover {
-    background-color: var(--light-pink);
-    border-color: var(--primary-pink);
-}
-
-.upload-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
+.upload-box:hover { background-color: #FCE7F3; border-color: #F472B6; }
+.upload-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
 .icon-circle {
-    background-color: var(--light-pink);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #FCE7F3; /* Jasny róż */
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
 }
+.upload-text { font-size: 0.9rem; font-weight: 500; color: #333; }
+.file-name { color: #F472B6; font-size: 0.8rem; }
 
-.upload-text { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); }
-.file-name { font-size: 0.8rem; color: var(--primary-pink); }
-
-/* --- Karta Predykcji --- */
+/* --- KARTA PREDYKCJI --- */
 .prediction-card {
     background: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 100%);
     padding: 24px;
-    border-radius: var(--radius);
+    border-radius: 16px;
     margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    display: flex; align-items: center; gap: 20px;
     border: 1px solid #FBCFE8;
 }
-
 .prediction-icon {
-    background-color: rgba(255, 255, 255, 0.6);
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(255,255,255,0.6);
+    width: 56px; height: 56px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
-
 .prediction-text { display: flex; flex-direction: column; }
-.prediction-label { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 4px; }
-.prediction-value { font-size: 1.2rem; color: var(--text-dark); font-weight: 600; }
-.prediction-subtext { font-size: 0.8rem; color: var(--primary-pink); margin-top: 2px; }
+.prediction-label { font-size: 0.85rem; color: #666; margin-bottom: 4px; }
+.prediction-value { font-size: 1.2rem; color: #333; font-weight: 600; }
+.prediction-subtext { font-size: 0.8rem; color: #F472B6; margin-top: 2px; }
 
-/* --- Przycisk Zapisz --- */
+/* --- PRZYCISK ZAPISZ (NAPRAWIONY KOLOR) --- */
 .save-btn {
-    background-color: var(--primary-pink);
-    color: white;
+    background-color: #F472B6 !important; /* Różowy na sztywno */
+    color: white !important;
     border: none;
     padding: 18px;
     border-radius: 12px;
@@ -172,5 +110,53 @@
     width: 100%;
     box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
 }
+.save-btn:hover { background-color: #EC4899 !important; }
 
-.save-btn:hover { background-color: #EC4899; }
+/* --- MENU DOLNE (NAPRAWIONE IKONY) --- */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #eee;
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #999;
+    flex: 1;
+}
+
+/* To naprawia wielkie ikony - ustawia im sztywną wielkość */
+.nav-item svg {
+    width: 32px !important;
+    height: 32px !important;
+    fill: #333;
+    display: block;
+}
+
+/* Aktywny przycisk (różowe tło) */
+.nav-item.active .nav-icon-highlight {
+    background-color: #F472B6 !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(244, 114, 182, 0.4);
+    transform: translateY(-20px);
+}
+
+.nav-item.active .nav-icon-highlight svg {
+    fill: #FFF;
+}
