@@ -4,42 +4,52 @@ require_once 'Repository.php';
 
 class UserRepository extends Repository
 {
-    public function createUser(
-        string $email,
-        string $hashedPassword,
-        string $firstname
-    ): void {
+    public function createUser(UserRegistrationDTO $userDto): void {
+        // 1. Pobieramy połączenie z bazą
         $db = $this->database->connect();
-
+    
         try {
-            // Rozpoczęcie transakcji (Wymóg: transakcje na odpowiednim poziomie izolacji)
+            // 2. ROZPOCZYNAMY TRANSAKCJĘ
             $db->beginTransaction();
-
-            // 1. Wstawienie do tabeli users (dodajemy domyślną rolę ROLE_USER = 1)
+    
+            // 3. WSTAWIANIE DO TABELI USERS
             $stmt = $db->prepare('
                 INSERT INTO users (role_id, email, password)
                 VALUES (?, ?, ?) RETURNING id
             ');
             
-            // Zakładamy, że ROLE_USER ma ID = 1 (zgodnie z naszym init.sql)
-            $stmt->execute([1, $email, $hashedPassword]);
+            $stmt->execute([
+                1, // Domyślna rola (np. ROLE_USER)
+                $userDto->email,
+                $userDto->password
+            ]);
             
-            // Pobieramy ID nowo stworzonego użytkownika
+            // Pobieramy ID, które baza przed chwilą nadała użytkownikowi
             $userId = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
-
-            // 2. Wstawienie do tabeli profiles (Relacja 1:1)
+    
+            // 4. WSTAWIANIE DO TABELI PROFILES (używając uzyskanego userId)
             $stmt = $db->prepare('
-                INSERT INTO profiles (user_id, first_name)
-                VALUES (?, ?)
+                INSERT INTO profiles (user_id, first_name, last_name)
+                VALUES (?, ?, ?)
             ');
-            $stmt->execute([$userId, $firstname]);
-
-            // Zatwierdzenie zmian
+            
+            $stmt->execute([
+                $userId, 
+                $userDto->firstName, 
+                $userDto->lastName
+            ]);
+    
+            // 5. ZATWIERDZAMY TRANSAKCJĘ
+            // Dopiero teraz dane stają się widoczne dla innych i zostają na stałe w bazie
             $db->commit();
-
+    
         } catch (PDOException $e) {
-            // W razie błędu wycofujemy zmiany
-            $db->rollBack();
+            // 6. COFAMY ZMIANY W RAZIE BŁĘDU
+            // Jeśli cokolwiek poszło nie tak, baza wróci do stanu sprzed beginTransaction
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            // Wyrzucamy błąd dalej, żeby kontroler mógł go obsłużyć (np. pokazać komunikat)
             throw $e;
         }
     }
