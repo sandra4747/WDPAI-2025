@@ -54,17 +54,9 @@ class UserRepository extends Repository
         }
     }
 
-    public function getUserByEmail(string $email): ?UserDTO {
+    public function getUserByEmail(string $email): ?array {
         $stmt = $this->database->connect()->prepare('
-            SELECT 
-                u.id, 
-                u.email, 
-                u.password, 
-                p.first_name, 
-                p.last_name 
-            FROM users u
-            LEFT JOIN profiles p ON u.id = p.user_id
-            WHERE u.email = :email
+            SELECT id, email, password FROM users WHERE email = :email
         ');
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
@@ -75,12 +67,29 @@ class UserRepository extends Repository
             return null;
         }
     
+        return $user; // Zwracamy tablicę z id, email i password
+    }
+
+    public function getUserDetailsById(int $id): ?UserDTO 
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT u.id, u.email, p.first_name, p.last_name 
+            FROM users u 
+            LEFT JOIN profiles p ON u.id = p.user_id 
+            WHERE u.id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) return null;
+
         return new UserDTO(
-            $user['id'],
-            $user['email'],
-            $user['password'],
-            $user['first_name'] ?? '', 
-            $user['last_name'] ?? ''
+            (int)$data['id'],
+            $data['email'],
+            $data['first_name'] ?? '',
+            $data['last_name'] ?? ''
         );
     }
 }

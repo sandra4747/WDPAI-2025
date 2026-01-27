@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mój Profil | DreamBo</title>
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/dashboard.css">
+</head>
+<body class="dashboard-body">
+    <main class="dashboard-container">
+        <header class="dream-header">
+            <div class="dream-logo">
+                <span>DreamBo</span>
+            </div>
+            <a href="/logout" class="logout-minimal-btn">Wyloguj</a>
+        </header>
+
+        <section class="profile-section">
+            <h2>Twój Profil</h2>
+            <div class="profile-card">
+                <div class="profile-info">
+                    <label>Imię i nazwisko:</label>
+                    <span><?= htmlspecialchars($user->firstName . ' ' . $user->lastName) ?></span>
+                </div>
+                <div class="profile-info">
+                    <label>Adres e-mail:</label>
+                    <span><?= htmlspecialchars($user->email) ?></span>
+                </div>
+            </div>
+            
+            <a href="/dashboard" class="back-btn">Powrót do dashboardu</a>
+        </section>
+    </main>
+
+    <nav class="mobile-nav">
+        <a href="/dashboard" class="nav-item">
+            <svg>...</svg> </a>
+        <a href="/profile" class="nav-item active">
+            <svg>...</svg> </a>
+    </nav>
+</body>
+</html>

@@ -23,9 +23,17 @@
                 DreamBo</h1>
             <p class="subtitle">Twoje centrum dowodzenia marzeniami</p>
 
-            <?php if (isset($messages)) : ?>
-                <p class="messages"><?= htmlspecialchars($messages) ?></p>
-            <?php endif; ?>
+            <div class="messages-container">
+                <?php 
+                if (isset($messages)) {
+                    // Ponieważ przesyłamy tablicę, musimy po niej przeiterować
+                    foreach ($messages as $message) {
+                        // D4: Każdy komunikat jest escapowany przed wyświetleniem
+                        echo '<p class="messages">' . htmlspecialchars($message) . '</p>';
+                    }
+                }
+                ?>
+            </div>
 
             <form method="POST" action="/register" class="auth-form">
 

@@ -3,6 +3,7 @@
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/GoalController.php';
+require_once 'src/controllers/UserController.php';
 
 
 class Routing {
@@ -47,6 +48,10 @@ class Routing {
         'gallery' => [
             'controller' => 'GoalController',
              'action' => 'gallery'
+        ],
+        'profile' => [
+            'controller' => 'UserController',
+             'action' => 'profile'
         ]
         ];
 
