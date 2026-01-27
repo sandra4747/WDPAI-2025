@@ -22,6 +22,7 @@ class GoalRepository extends Repository {
     {
         $stmt = $this->database->connect()->prepare('
         SELECT g.*, 
+               g.image_path as image,
                c.name as category_name, 
                c.icon as category_icon,
                calculate_progress(g.current_amount, g.target_amount) as progress_percentage
@@ -132,5 +133,19 @@ class GoalRepository extends Repository {
         $stmt->bindParam(':uid', $userId, PDO::PARAM_INT); 
         
         $stmt->execute();
+    }
+
+    public function getGoalLogs(int $goalId): array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT change_date, new_amount, old_amount 
+            FROM goal_logs 
+            WHERE goal_id = :id 
+            ORDER BY change_date DESC
+        ');
+        $stmt->bindParam(':id', $goalId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

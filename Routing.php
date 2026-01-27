@@ -35,6 +35,14 @@ class Routing {
         'deleteGoal' => [
             'controller' => 'GoalController',
             'action' => 'deleteGoal'
+        ], 
+        'getGoalDetails' => [
+            'controller' => 'GoalController',
+             'action' => 'getGoalDetails'
+        ],
+        'gallery' => [
+            'controller' => 'GoalController',
+             'action' => 'gallery'
         ]
         ];
 

@@ -1,23 +1,8 @@
-:root {
-    --primary-pink: #F472B6;
-    --light-pink: #FCE7F3;
-    --text-dark: #333333;
-    --text-gray: #666666;
-    --input-bg: #F8F9FA;
-    --white: #FFFFFF;
-    --radius: 16px;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--white);
-    margin: 0;
-    color: var(--text-dark);
-}
+/* --- public/styles/addGoal.css --- */
 
 .form-container {
     padding: 20px;
-    padding-bottom: 100px; /* Miejsce na dolną nawigację */
+    padding-bottom: 100px;
     max-width: 480px;
     margin: 0 auto;
 }
@@ -54,7 +39,7 @@ body {
 .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--text-dark);
+    color: var(--text-dark); /* Używamy zmiennej z main.css! */
 }
 
 /* Style Inputów */
@@ -77,14 +62,8 @@ body {
 }
 
 /* Select z własną strzałką */
-.select-wrapper {
-    position: relative;
-}
-
-.select-field {
-    appearance: none; /* Ukrywa domyślną strzałkę */
-    cursor: pointer;
-}
+.select-wrapper { position: relative; }
+.select-field { appearance: none; cursor: pointer; }
 
 .chevron-icon {
     position: absolute;
@@ -94,15 +73,8 @@ body {
     pointer-events: none;
 }
 
-/* Wiersz z dwoma polami */
-.form-row {
-    display: flex;
-    gap: 15px;
-}
-
-.form-group.half {
-    flex: 1;
-}
+.form-row { display: flex; gap: 15px; }
+.form-group.half { flex: 1; }
 
 .input-with-suffix {
     position: relative;
@@ -110,9 +82,7 @@ body {
     align-items: center;
 }
 
-.input-with-suffix input {
-    padding-right: 50px; /* Miejsce na tekst PLN */
-}
+.input-with-suffix input { padding-right: 50px; }
 
 .suffix {
     position: absolute;
@@ -157,16 +127,8 @@ body {
     justify-content: center;
 }
 
-.upload-text {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-dark);
-}
-
-.file-name {
-    font-size: 0.8rem;
-    color: var(--primary-pink);
-}
+.upload-text { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); }
+.file-name { font-size: 0.8rem; color: var(--primary-pink); }
 
 /* --- Karta Predykcji --- */
 .prediction-card {
@@ -177,7 +139,7 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
-    border: 1px solid #FBCFE8; /* Delikatna ramka */
+    border: 1px solid #FBCFE8;
 }
 
 .prediction-icon {
@@ -191,28 +153,10 @@ body {
     flex-shrink: 0;
 }
 
-.prediction-text {
-    display: flex;
-    flex-direction: column;
-}
-
-.prediction-label {
-    font-size: 0.85rem;
-    color: var(--text-gray);
-    margin-bottom: 4px;
-}
-
-.prediction-value {
-    font-size: 1.2rem;
-    color: var(--text-dark);
-    font-weight: 600;
-}
-
-.prediction-subtext {
-    font-size: 0.8rem;
-    color: var(--primary-pink);
-    margin-top: 2px;
-}
+.prediction-text { display: flex; flex-direction: column; }
+.prediction-label { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 4px; }
+.prediction-value { font-size: 1.2rem; color: var(--text-dark); font-weight: 600; }
+.prediction-subtext { font-size: 0.8rem; color: var(--primary-pink); margin-top: 2px; }
 
 /* --- Przycisk Zapisz --- */
 .save-btn {
@@ -229,40 +173,4 @@ body {
     box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
 }
 
-.save-btn:hover {
-    background-color: #EC4899;
-}
-
-/* --- Dolna Nawigacja --- */
-.mobile-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 15px 0;
-    border-top: 1px solid #eee;
-    z-index: 100;
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
-}
-
-.nav-item.active .nav-icon-highlight {
-    background-color: var(--primary-pink);
-    width: 50px;
-    height: 50px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(244, 114, 182, 0.4);
-    transform: translateY(-10px); 
-}
+.save-btn:hover { background-color: #EC4899; }

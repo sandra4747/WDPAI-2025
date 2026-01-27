@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria Marzeń | DreamBo</title>
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="/public/styles/dashboard.css"> 
+    <link rel="stylesheet" href="/public/styles/gallery.css">
+</head>
+<body>
+
+<div class="gallery-container">
+    <header class="gallery-header">
+        
+        <div class="header-left">
+            <a href="/dashboard" class="back-link">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 19L5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+
+            <div class="dream-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
+                    <path d="M192,116a12,12,0,1,1-12-12A12,12,0,0,1,192,116ZM152,64H112a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm96,48v32a24,24,0,0,1-24,24h-2.36l-16.21,45.38A16,16,0,0,1,190.36,224H177.64a16,16,0,0,1-15.07-10.62L160.65,208h-57.3l-1.92,5.38A16,16,0,0,1,86.36,224H73.64a16,16,0,0,1-15.07-10.62L46,178.22a87.69,87.69,0,0,1-21.44-48.38A16,16,0,0,0,16,144a8,8,0,0,1-16,0,32,32,0,0,1,24.28-31A88.12,88.12,0,0,1,112,32H216a8,8,0,0,1,0,16H194.61a87.93,87.93,0,0,1,30.17,37c.43,1,.85,2,1.25,3A24,24,0,0,1,248,112Zm-16,0a8,8,0,0,0-8-8h-3.66a8,8,0,0,1-7.64-5.6A71.9,71.9,0,0,0,144,48H112A72,72,0,0,0,58.91,168.64a8,8,0,0,1,1.64,2.71L73.64,208H86.36l3.82-10.69A8,8,0,0,1,97.71,192h68.58a8,8,0,0,1,7.53,5.31L177.64,208h12.72l18.11-50.69A8,8,0,0,1,216,152h8a8,8,0,0,0,8-8Z"></path>
+                </svg> 
+                <span>DreamBo</span>
+            </div>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="gallery-search" placeholder="Szukaj celu...">
+            <span class="search-icon">🔍</span>
+        </div>
+    </header>
+
+    <div class="gallery-grid" id="gallery-grid">
+        <?php foreach ($goals as $goal): ?>
+            <div class="modern-card gallery-item" data-id="<?= $goal['id'] ?>">
+                
+                <div class="card-image-container">
+                    <?php if (!empty($goal['image'])): ?>
+                        <img src="/public/uploads/<?= $goal['image'] ?>" alt="Cel" class="card-img">
+                    <?php else: ?>
+                        <div class="card-placeholder-gradient">
+                            <span class="placeholder-icon">
+                                <?php 
+                                    $iconMap = ['plane'=>'✈️', 'laptop'=>'💻', 'house'=>'🏠', 'car'=>'🚗', 'book'=>'📚', 'target'=>'🎯'];
+                                    $dbIcon = $goal['category_icon'] ?? 'target';
+                                    echo $iconMap[$dbIcon] ?? '🎯'; 
+                                ?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="card-content">
+                    <p class="card-category">
+                        <?= htmlspecialchars($goal['category_name'] ?? 'Ogólne') ?>
+                    </p>
+                    
+                    <h3 class="card-title"><?= htmlspecialchars($goal['title']) ?></h3>
+                    
+                    <p class="card-amount"><?= number_format($goal['target_amount'], 0, ',', ' ') ?> PLN</p>
+
+                    <div class="card-progress-section">
+                        <div class="progress-labels">
+                            <span class="label-saved">Postęp</span>
+                            <span class="label-perc"><?= (int)($goal['progress_percentage'] ?? 0) ?>%</span>
+                        </div>
+                        <div class="modern-bar-bg">
+                            <div class="modern-bar-fill" style="width: <?= (int)($goal['progress_percentage'] ?? 0) ?>%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<div id="details-modal" class="modal-overlay">
+    <div class="modal-content large-modal">
+        <span class="close-modal">&times;</span>
+        
+        <div class="modal-grid-layout">
+            <div class="modal-left">
+                <h2 id="modal-title">Tytuł celu</h2>
+                <div class="goal-stats">
+                    <p>Brakuje: <strong id="modal-missing">0 PLN</strong></p>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="modal-bar"></div>
+                    </div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>Kalkulator Czasu ⏳</h3>
+                    <p class="calc-desc">Ile chcesz wpłacać miesięcznie?</p>
+                    <input type="number" id="calc-monthly" placeholder="np. 200">
+                    <p class="calc-result" id="calc-result-text">Wpisz kwotę, aby obliczyć datę.</p>
+                </div>
+            </div>
+
+            <div class="modal-right">
+                <h3>Dni wpłat (Ostatnie 30 dni) 📅</h3>
+                <div class="mini-calendar" id="mini-calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/scripts/gallery.js"></script>
+</body>
+</html>

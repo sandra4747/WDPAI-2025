@@ -1,0 +1,239 @@
+/* Układ strony */
+.gallery-container {
+    max-width: 1200px; /* Szerszy kontener dla galerii */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- NAGŁÓWEK GALERII --- */
+.gallery-header {
+    display: flex;
+    justify-content: space-between; /* Rozrzuca elementy: Lewo - Środek - Prawo */
+    align-items: center;            /* To jest KLUCZOWE - centruje wszystko w pionie */
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Stylizacja logo specyficzna dla Galerii */
+.gallery-header .dream-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #444;
+    
+    margin-bottom: 0 !important; 
+}
+
+.header-left .dream-logo {
+    margin-bottom: 0 !important;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.back-link:hover { background: #e0e0e0; }
+
+.search-box {
+    position: relative;
+    width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 45px;
+    border-radius: 25px;
+    border: 1px solid #eee;
+    background: #f9f9f9;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: #999;
+}
+
+/* --- SIATKA KART (Nowy Design) --- */
+.gallery-grid {
+    display: grid;
+    /* Karty będą miały min. 280px szerokości */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* KARTA */
+.modern-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    /* Delikatny cień jak na przykładzie */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ZDJĘCIE */
+.card-image-container {
+    height: 180px;
+    width: 100%;
+    background-color: #eee;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Placeholder (Gradient) */
+.card-placeholder-gradient {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.placeholder-icon { font-size: 3rem; opacity: 0.6; }
+
+/* TREŚĆ KARTY */
+.card-content {
+    padding: 20px;
+}
+
+.card-category {
+    color: #A0AEC0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2D3748;
+    margin: 0 0 5px 0;
+    /* Ucinanie zbyt długiego tekstu */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-amount {
+    font-size: 0.95rem;
+    color: #718096;
+    margin-bottom: 20px;
+}
+
+/* PASEK POSTĘPU NA KARCIE */
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #A0AEC0;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.modern-bar-bg {
+    width: 100%;
+    height: 6px;
+    background-color: #EDF2F7;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modern-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F687B3 0%, #B794F4 100%);
+    border-radius: 10px;
+}
+
+/* --- STYL MODALA (Ten co już miałaś) --- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+.large-modal {
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 28px; cursor: pointer; color: #aaa;
+}
+.close-modal:hover { color: #333; }
+
+/* Kalendarz i Kalkulator w Modalu */
+.calculator-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+.calc-desc { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
+#calc-monthly { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+.calc-result { margin-top: 10px; font-weight: 600; font-size: 0.95rem; }
+
+.mini-calendar {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px;
+}
+.calendar-day {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: #f7f7f7; font-size: 11px; color: #888;
+}
+.calendar-day.active { background: #F687B3; color: white; font-weight: bold; }
+
+@media (max-width: 768px) {
+    .modal-grid-layout { grid-template-columns: 1fr; }
+}

@@ -150,4 +150,47 @@ class GoalController extends AppController {
         header("Location: /dashboard");
         exit();
     }
+
+    // Endpoint dla Fetch API - pobiera szczegóły celu i historię
+    public function getGoalDetails()
+    {
+        // Sprawdzamy czy to zapytanie JSON
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        if ($contentType === 'application/json') {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+            $goalId = $decoded['id'] ?? null;
+
+            if ($goalId) {
+                $goal = $this->goalRepository->getGoalById($goalId);
+                $logs = $this->goalRepository->getGoalLogs($goalId);
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'goal' => $goal,
+                    'logs' => $logs
+                ]);
+                exit();
+            }
+        }
+    }
+
+    public function gallery()
+    {
+        // 1. Sprawdzamy czy użytkownik jest zalogowany
+        // (zakładam, że trzymasz user_id w sesji, tak jak w dashboardzie)
+        $userId = $_SESSION['user_id'] ?? null;
+
+        if (!$userId) {
+            header("Location: /login");
+            exit();
+        }
+
+        // 2. Pobieramy cele użytkownika (żeby wyświetlić je w siatce)
+        // Używamy tej samej metody co w Dashboardzie
+        $goals = $this->goalRepository->getGoalsByUserId($userId);
+
+        // 3. Wyświetlamy widok galerii
+        $this->render('gallery', ['goals' => $goals]);
+    }
 }
