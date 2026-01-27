@@ -73,7 +73,7 @@ class UserRepository extends Repository
     public function getUserDetailsById(int $id): ?UserDTO 
     {
         $stmt = $this->database->connect()->prepare('
-            SELECT u.id, u.email, p.first_name, p.last_name 
+            SELECT u.id, u.email, p.first_name, p.last_name, p.avatar_url 
             FROM users u 
             LEFT JOIN profiles p ON u.id = p.user_id 
             WHERE u.id = :id

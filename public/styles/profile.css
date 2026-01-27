@@ -1,107 +1,117 @@
-/* profile.css */
-
-/* Kontener główny - centrowanie formularza na ekranie */
 .profile-form-container {
-    max-width: 450px;
-    margin: 40px auto;
-    padding: 30px;
+    max-width: 700px;
+    margin: 0;
+    padding: 20px;
     background: #ffffff;
-    border-radius: 15px;
-    /* Subtelny cień dla efektu uniesienia */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    /* Margines dolny, żeby nawigacja nie zasłaniała przycisku */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     margin-bottom: 120px;
 }
 
-/* Tytuł sekcji */
-.profile-form-container h2 {
-    margin-bottom: 25px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #111827;
+.section-title {
+    margin-bottom: 30px;
     text-align: center;
+    font-weight: 700;
 }
 
-/* Układ formularza */
+.profile-layout {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.profile-left {
+    flex: 0 0 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.avatar-img, .avatar-placeholder-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f3f4f6;
+}
+
+.avatar-placeholder-circle {
+    background: #ec4899;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.edit-photo-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #111827;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid white;
+    z-index: 10;
+}
+
+.avatar-hint {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.profile-right { flex: 1; }
+
 .simple-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Styl etykiet i pól wejściowych */
 .simple-form label {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #4b5563;
+    gap: 6px;
+    font-weight: 600;
 }
 
 .simple-form input {
-    padding: 12px 16px;
-    border: 1px solid #d1d5db;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
     border-radius: 10px;
-    font-family: inherit; /* Czcionka z main.css */
-    font-size: 1rem;
-    color: #1f2937;
-    transition: all 0.2s ease-in-out;
+    background: #f9fafb;
 }
 
-/* Efekt po kliknięciu w pole */
-.simple-form input:focus {
-    outline: none;
-    border-color: #000000;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
-}
-
-/* Pola zablokowane (email) */
 .simple-form input:disabled {
     background-color: #f3f4f6;
     color: #9ca3af;
-    border-color: #e5e7eb;
-    cursor: not-allowed;
 }
 
-/* Przycisk zapisu */
 .update-btn {
-    background-color: #000000;
-    color: #ffffff;
     padding: 14px;
+    border-radius: 12px;
+    background: #ec4899;
+    color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
-    transition: transform 0.1s, opacity 0.2s;
 }
 
-.update-btn:hover {
-    opacity: 0.9;
-}
+.dark-btn { background: #111827; }
 
-.update-btn:active {
-    transform: scale(0.98);
-}
-
-/* Komunikat o sukcesie */
-.success-msg {
-    background-color: #ecfdf5;
-    color: #065f46;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #a7f3d0;
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-/* Dopasowanie do urządzeń mobilnych */
-@media (max-width: 480px) {
-    .profile-form-container {
-        margin: 20px;
-        padding: 20px;
-    }
+@media (max-width: 600px) {
+    .profile-layout { flex-direction: column; align-items: center; }
 }
