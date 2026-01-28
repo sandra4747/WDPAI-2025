@@ -13,47 +13,29 @@ class SecurityController extends AppController {
         $this->userRepository = new UserRepository();
     }
 
-    public function login()
-    {
-        // A2: Obsługujemy tylko metodę POST, GET tylko renderuje widok
+    public function login() {
         if (!$this->isPost()) {
             return $this->render('login');
         }
-
+    
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        // C1: Walidacja formatu email po stronie serwera
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->render('login', ['messages' => ['Niepoprawny format adresu email.']]);
-        }
-
-        // A1: Pobieramy użytkownika (UserRepo używa Prepared Statements)
+    
         $user = $this->userRepository->getUserByEmail($email);
-
-        // B1: Nie zdradzamy, czy email istnieje - jeden wspólny komunikat
         $invalidCredentialsMsg = ['Nieprawidłowy adres email lub hasło.'];
-
-        if (!$user) {
-            // E5: Tutaj można by dodać logowanie nieudanej próby do pliku
+    
+        if (!$user || !password_verify($password, $user['password'])) {
             return $this->render('login', ['messages' => $invalidCredentialsMsg]);
         }
-
-        // E2: Weryfikacja hasła przy użyciu bezpiecznej funkcji PHP
-        if (!password_verify($password, $user['password'])) {
-            // E5: Logowanie nieudanej próby (złe hasło)
-            return $this->render('login', ['messages' => $invalidCredentialsMsg]);
-        }
-
-        // B3: Po poprawnym logowaniu regenerujemy ID sesji (ochrona przed Session Fixation)
+    
         session_regenerate_id(true);
-
-        // D5: Zapisujemy tylko minimalny zestaw danych w sesji
         $_SESSION['user_id'] = $user['id'];
-
-        // Przekierowanie do chronionej części aplikacji
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/dashboard");
+        
+        // POBIERANIE ROLI DO SESJI
+        $userDetails = $this->userRepository->getUserDetailsById($user['id']);
+        $_SESSION['role'] = $userDetails->role; 
+    
+        header("Location: /dashboard");
         exit();
     }
 

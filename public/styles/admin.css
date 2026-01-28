@@ -1,0 +1,163 @@
+:root {
+    --primary-pink: #F472B6;
+    --primary-gradient: linear-gradient(90deg, #F65BAA, #C19EEF);
+    --bg-light: #F8F9FA;
+    --bg-pink-soft: #FDE8F2;
+    --text-dark: #444444;
+    --text-muted: #BDBDBD;
+    --white: #ffffff;
+    --border: #F0F0F0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif; /* Spójność z Twoim modalem */
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.admin-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+/* SIDEBAR - pasujący do DreamBo */
+.sidebar {
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding-left: 10px;
+}
+
+.brand h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.brand span { color: var(--primary-pink); }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+}
+
+.menu-item.active {
+    background-color: var(--bg-pink-soft);
+    color: var(--primary-pink);
+}
+
+.menu-item:hover:not(.active) {
+    background-color: #fafafa;
+    color: var(--text-dark);
+}
+
+/* MAIN CONTENT */
+.content {
+    padding: 40px;
+    max-width: 1000px;
+}
+
+.top-bar h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.top-bar p { color: var(--text-muted); margin-bottom: 30px; }
+
+/* TABLE STYLING - jak Twoje Goal Cards */
+.table-wrapper {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th {
+    text-align: left;
+    padding: 15px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.styled-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--bg-light);
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--bg-pink-soft);
+    object-fit: cover;
+}
+
+.user-name { font-weight: 600; }
+
+/* BADGES */
+.badge {
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.badge-admin { background: #C19EEF; color: white; }
+.badge-user { background: var(--bg-pink-soft); color: var(--primary-pink); }
+
+.goal-count {
+    font-weight: 700;
+    color: var(--primary-pink);
+}
+
+/* DELETE BUTTON - Spójny z Twoim czerwonym w dashu */
+.delete-btn {
+    background-color: #FEF2F2;
+    color: #EF4444;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #FEE2E2;
+    transform: scale(1.05);
+}

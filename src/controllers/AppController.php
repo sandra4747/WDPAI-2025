@@ -56,5 +56,4 @@ class AppController {
             exit();
         }
     }
-
 }

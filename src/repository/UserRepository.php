@@ -70,27 +70,27 @@ class UserRepository extends Repository
         return $user; // Zwracamy tablicę z id, email i password
     }
 
-    public function getUserDetailsById(int $id): ?UserDTO 
-    {
+    public function getUserDetailsById(int $id): ?UserDTO {
         $stmt = $this->database->connect()->prepare('
-            SELECT u.id, u.email, p.first_name, p.last_name, p.avatar_url 
+            SELECT u.id, u.email, r.name as role, p.first_name, p.last_name, p.avatar_url 
             FROM users u 
+            JOIN roles r ON u.role_id = r.id
             LEFT JOIN profiles p ON u.id = p.user_id 
             WHERE u.id = :id
         ');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-
+        $stmt->execute([':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
         if (!$data) return null;
-
+    
         return new UserDTO(
             (int)$data['id'],
             $data['email'],
             $data['first_name'] ?? '',
             $data['last_name'] ?? '',
-            $data['avatar_url'] ?? null        );
+            $data['role'],
+            $data['avatar_url'] ?? null
+        );
     }
 
     public function updateUserProfile(int $id, string $name, string $surname, string $email, ?string $avatarUrl): void 
@@ -100,11 +100,9 @@ class UserRepository extends Repository
         try {
             $db->beginTransaction();
 
-            // Aktualizacja tabeli users (email) - A1: Prepared Statements
             $stmt1 = $db->prepare('UPDATE users SET email = :email WHERE id = :id');
             $stmt1->execute([':email' => $email, ':id' => $id]);
 
-            // Aktualizacja tabeli profiles (imię, nazwisko, avatar)
             $stmt2 = $db->prepare('
                 UPDATE profiles SET first_name = :name, last_name = :surname, avatar_url = :avatar 
                 WHERE user_id = :id
@@ -121,5 +119,18 @@ class UserRepository extends Repository
             if ($db->inTransaction()) $db->rollBack();
             throw $e;
         }
+    }
+
+    public function getUsersDetails(): array {
+        $stmt = $this->database->connect()->prepare('SELECT * FROM v_user_details');
+        $stmt->execute();
+        $usersData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $users = [];
+        foreach ($usersData as $data) {
+            // Przekazujemy całą tablicę do konstruktora DTO
+            $users[] = new AdminUserDTO($data);
+        }
+        return $users;
     }
 }
