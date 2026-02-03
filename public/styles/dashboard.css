@@ -377,36 +377,6 @@
 
 /* RESPONSYWNOŚĆ */
 
-/* Dla dużych ekranów (powyżej 768px) */
-@media (min-width: 769px) {
-    .dashboard-container {
-        max-width: 900px; 
-        display: grid;
-        grid-template-columns: 1fr 1fr; 
-        gap: 40px;
-        align-items: start;
-    }
-
-    .dream-header, 
-    .overall-progress-section,
-    .action-grid {
-        grid-column: 1 / 2;
-    }
-
-    .goals-section {
-        grid-column: 2 / 3;
-        grid-row: 1 / 4; 
-    }
-    
-    .mobile-nav {
-        max-width: 600px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-    }
-}
-
 /* MAŁE EKRANY */
 @media (max-width: 375px) {
     .dashboard-container {

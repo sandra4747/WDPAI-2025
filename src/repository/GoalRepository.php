@@ -28,25 +28,22 @@ class GoalRepository extends Repository {
     public function getGoalsByUserId(int $userId): array 
     {
         $stmt = $this->database->connect()->prepare('
-        SELECT g.*, g.image_path, c.name as category_name, c.icon as category_icon,
-               calculate_progress(g.current_amount, g.target_amount) as progress_percentage
-        FROM goals g
-        LEFT JOIN categories c ON g.category_id = c.id
-        WHERE g.user_id = :user_id
-        ORDER BY g.id ASC');
+            SELECT * FROM v_goals_details 
+            WHERE user_id = :user_id 
+            ORDER BY id ASC
+        ');
         
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
-
+    
         $rawGoals = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         $goalObjects = [];
         foreach ($rawGoals as $rawGoal) {
             $rawGoal['amount'] = $rawGoal['target_amount'];
-            
             $goalObjects[] = new GoalDTO($rawGoal);
         }
-
+    
         return $goalObjects;
     }
 

@@ -174,10 +174,14 @@ CREATE OR REPLACE VIEW v_goals_details AS
 SELECT
     g.id,
     g.user_id,
+    g.category_id,
     g.title,
     c.name AS category_name,
+    c.icon AS category_icon, 
     g.target_amount,
     g.current_amount,
+    g.target_date,
+    g.image_path,            
     calculate_progress(g.current_amount, g.target_amount) AS progress_percentage
 FROM goals g
 LEFT JOIN categories c ON g.category_id = c.id;

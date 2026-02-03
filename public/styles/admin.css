@@ -164,56 +164,72 @@ body {
 
 /* RESPONSYWNOŚĆ */
 
-/* Dla tabletów i telefonów (poniżej 768px) */
+/* --- RESPONSYWNOŚĆ: CARD VIEW (ZAMIAST TABELI) --- */
+
+/* TABLET I TELEFON (poniżej 768px) */
 @media (max-width: 768px) {
+    /* 1. Układ ogólny - jedna kolumna */
     .admin-container {
         grid-template-columns: 1fr;
     }
 
+    /* 2. Sidebar - pasek na górze */
     .sidebar {
         border-right: none;
         border-bottom: 1px solid var(--border);
-        padding: 15px;
-        flex-direction: row; 
-        overflow-x: auto; 
+        padding: 10px 15px;
+        flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .brand {
-        margin-bottom: 0; 
-        margin-right: 20px;
+        margin: 0;
+        font-size: 1rem;
     }
 
+    /* Menu robimy jako poziomy pasek z przewijaniem */
     .menu-item {
-        margin-bottom: 0;
-        white-space: nowrap; 
-        padding: 8px 12px;
+        margin: 0;
+        padding: 6px 12px;
         font-size: 0.8rem;
+        white-space: nowrap;
     }
 
     .content {
-        padding: 20px; 
-    }
-    
-    .user-name {
-        display: none;
+        padding: 15px; /* Mniejszy margines na telefonie */
     }
 }
 
-@media (max-width: 480px) {
-    .table-wrapper {
-        padding: 10px;
-        overflow-x: auto; 
+/* RESPONSYWNOŚĆ */
+
+@media (max-width: 768px) {
+    .admin-container { grid-template-columns: 1fr; }
+    .content { padding: 15px; }
+
+    .sidebar { 
+        flex-direction: row; flex-wrap: wrap; gap: 10px; 
+        padding: 10px; border-bottom: 1px solid #eee; border-right: none;
+        align-items: center; justify-content: center;
     }
+    .brand { margin: 0; width: 100%; text-align: center; justify-content: center; }
+    .menu-item { margin: 0; padding: 6px 12px; font-size: 0.85rem; }
+
+    .styled-table thead { display: none; } 
     
-    .styled-table { min-width: 400px; }
-    
-    .styled-table th, .styled-table td {
-        padding: 10px 5px; 
-        font-size: 0.8rem;
+    .styled-table tr {
+        display: flex; flex-direction: column; 
+        background: white; border: 1px solid #eee;
+        margin-bottom: 15px; padding: 15px; border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    
-    .user-img { width: 32px; height: 32px; }
-    .badge { padding: 4px 8px; font-size: 0.7rem; }
+
+    .styled-table td { 
+        padding: 5px 0; border: none; width: 100%;
+    }
+
+    .user-cell { width: 100%; } 
+    .delete-btn { width: 100%; margin-top: 10px; }
 }

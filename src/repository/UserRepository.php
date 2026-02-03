@@ -72,11 +72,7 @@ class UserRepository extends Repository
 
     public function getUserDetailsById(int $id): ?UserDTO {
         $stmt = $this->database->connect()->prepare('
-            SELECT u.id, u.email, r.name as role, p.first_name, p.last_name, p.avatar_url 
-            FROM users u 
-            JOIN roles r ON u.role_id = r.id
-            LEFT JOIN profiles p ON u.id = p.user_id 
-            WHERE u.id = :id
+            SELECT * FROM v_user_details WHERE id = :id
         ');
         $stmt->execute([':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -88,7 +84,7 @@ class UserRepository extends Repository
             $data['email'],
             $data['first_name'] ?? '',
             $data['last_name'] ?? '',
-            $data['role'],
+            $data['role'],      
             $data['avatar_url'] ?? null
         );
     }

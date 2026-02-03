@@ -104,13 +104,6 @@
   color: #F65BAA;
 }
 
-@media (max-width: 480px) {
-  .auth-card {
-      padding: 2rem;
-      width: 90%;
-  }
-}
-
 @media (max-width: 380px) {
   .auth-card {
     padding: 1.5rem; 
