@@ -188,15 +188,11 @@
     margin-bottom: 4px;
 }
 
-/* --- Style dla listy celów --- */
-
-/* Modyfikacja karty celu, aby pomieścić przycisk */
 .goal-item-card {
     display: flex;
-    justify-content: space-between; /* Rozsuwa treść i przycisk */
+    justify-content: space-between; 
     align-items: center;
-    /* ...Twoje stare style... */
-    padding-right: 15px; /* Odstęp z prawej dla przycisku */
+    padding-right: 15px; 
 }
 
 .goal-left-content {
@@ -206,9 +202,8 @@
     flex-grow: 1;
 }
 
-/* Przycisk Plusik */
 .add-funds-btn {
-    background-color: #F472B6; /* Różowy */
+    background-color: #F472B6; 
     color: white;
     border: none;
     width: 36px;
@@ -229,9 +224,8 @@
     background-color: #ec4899;
 }
 
-/* --- Style Modala --- */
 .modal-overlay {
-    display: none; /* Domyślnie ukryty */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
@@ -241,7 +235,7 @@
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(2px); /* Rozmycie tła */
+    backdrop-filter: blur(2px); 
 }
 
 .modal-content {
@@ -279,7 +273,6 @@
     line-height: 20px;
 }
 
-/* Input w modalu */
 .input-with-suffix {
     position: relative;
     display: flex;
@@ -328,16 +321,14 @@
     background-color: #EC4899;
 }
 
-/* Kontener na przyciski */
 .goal-actions {
     display: flex;
     align-items: center;
-    gap: 10px; /* Odstęp między ołówkiem a plusem */
+    gap: 10px; 
 }
 
-/* Styl przycisku edycji */
 .edit-btn {
-    background-color: #F3F4F6; /* Jasnoszary */
+    background-color: #F3F4F6; 
     width: 36px;
     height: 36px;
     border-radius: 12px;
@@ -346,7 +337,7 @@
     justify-content: center;
     transition: all 0.2s ease;
     border: 2px solid transparent;
-    text-decoration: none; /* Usuwa podkreślenie linku */
+    text-decoration: none; 
 }
 
 .edit-btn:hover {
@@ -359,12 +350,11 @@
 }
 
 .edit-btn:hover svg {
-    fill: #374151; /* Ciemniejszy szary po najechaniu */
+    fill: #374151; 
 }
 
-/* Przycisk usuwania */
 .delete-btn {
-    background-color: #FEF2F2; /* Bardzo jasny czerwony */
+    background-color: #FEF2F2; 
     width: 36px;
     height: 36px;
     border-radius: 12px;
@@ -385,3 +375,70 @@
     transition: fill 0.2s;
 }
 
+/* RESPONSYWNOŚĆ */
+
+/* Dla dużych ekranów (powyżej 768px) */
+@media (min-width: 769px) {
+    .dashboard-container {
+        max-width: 900px; 
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        gap: 40px;
+        align-items: start;
+    }
+
+    .dream-header, 
+    .overall-progress-section,
+    .action-grid {
+        grid-column: 1 / 2;
+    }
+
+    .goals-section {
+        grid-column: 2 / 3;
+        grid-row: 1 / 4; 
+    }
+    
+    .mobile-nav {
+        max-width: 600px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    }
+}
+
+/* MAŁE EKRANY */
+@media (max-width: 375px) {
+    .dashboard-container {
+        padding: 15px; 
+    }
+
+    .icon-wrapper {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .action-btn {
+        font-size: 0.7rem; 
+    }
+    
+    .action-grid {
+        gap: 15px; 
+    }
+
+    .goal-item-card {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .goal-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .goal-name {
+        font-size: 0.9rem; 
+    }
+}

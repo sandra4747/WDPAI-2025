@@ -11,7 +11,7 @@
 
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif; /* Spójność z Twoim modalem */
+    font-family: 'Poppins', sans-serif; 
     background-color: var(--bg-light);
     color: var(--text-dark);
 }
@@ -22,7 +22,7 @@ body {
     min-height: 100vh;
 }
 
-/* SIDEBAR - pasujący do DreamBo */
+/* SIDEBAR */
 .sidebar {
     background: var(--white);
     border-right: 1px solid var(--border);
@@ -85,7 +85,7 @@ body {
 
 .top-bar p { color: var(--text-muted); margin-bottom: 30px; }
 
-/* TABLE STYLING - jak Twoje Goal Cards */
+/* TABLE STYLING */
 .table-wrapper {
     background: var(--white);
     border-radius: 24px;
@@ -145,7 +145,7 @@ body {
     color: var(--primary-pink);
 }
 
-/* DELETE BUTTON - Spójny z Twoim czerwonym w dashu */
+/* DELETE BUTTON */
 .delete-btn {
     background-color: #FEF2F2;
     color: #EF4444;
@@ -160,4 +160,60 @@ body {
 .delete-btn:hover {
     background-color: #FEE2E2;
     transform: scale(1.05);
+}
+
+/* RESPONSYWNOŚĆ */
+
+/* Dla tabletów i telefonów (poniżej 768px) */
+@media (max-width: 768px) {
+    .admin-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 15px;
+        flex-direction: row; 
+        overflow-x: auto; 
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .brand {
+        margin-bottom: 0; 
+        margin-right: 20px;
+    }
+
+    .menu-item {
+        margin-bottom: 0;
+        white-space: nowrap; 
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    .content {
+        padding: 20px; 
+    }
+    
+    .user-name {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-wrapper {
+        padding: 10px;
+        overflow-x: auto; 
+    }
+    
+    .styled-table { min-width: 400px; }
+    
+    .styled-table th, .styled-table td {
+        padding: 10px 5px; 
+        font-size: 0.8rem;
+    }
+    
+    .user-img { width: 32px; height: 32px; }
+    .badge { padding: 4px 8px; font-size: 0.7rem; }
 }

@@ -19,3 +19,11 @@ body {
     --text-color: #333;
     --bg-color: #fff;
 }
+
+/* RESPONSYWNA TYPOGRAFIA */
+
+@media (min-width: 1200px) {
+    html {
+        font-size: 18px; 
+    }
+}

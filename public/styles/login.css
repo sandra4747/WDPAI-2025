@@ -103,3 +103,28 @@
   text-decoration: none;
   color: #F65BAA;
 }
+
+@media (max-width: 480px) {
+  .auth-card {
+      padding: 2rem;
+      width: 90%;
+  }
+}
+
+@media (max-width: 380px) {
+  .auth-card {
+    padding: 1.5rem; 
+    width: 100%;
+    box-shadow: none; 
+    background: transparent; 
+  }
+
+  .brand {
+    font-size: 1.3rem; 
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+}
