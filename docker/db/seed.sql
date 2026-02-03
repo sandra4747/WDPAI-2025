@@ -48,7 +48,7 @@ INSERT INTO tags (tag_name) VALUES
 -- ---------------------
 INSERT INTO goals (user_id, category_id, title, target_amount, current_amount, target_date, image_path) VALUES
 (2, 3, 'Fundusz awaryjny', 10000.00, 6000.00, '2026-06-30', NULL),
-(2, 2, 'Nowy MacBook Pro', 12000.00, 3000.00, '2026-11-30', 'macbook.png');
+(2, 2, 'Nowy MacBook Pro', 12000.00, 3000.00, '2026-11-30', NULL);
 
 
 SELECT setval('roles_id_seq', (SELECT MAX(id) FROM roles));
