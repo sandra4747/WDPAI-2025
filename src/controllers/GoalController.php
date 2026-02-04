@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__ .'/../repository/GoalRepository.php';
+require_once __DIR__ .'/../repository/BadgeRepository.php'; 
 require_once __DIR__ .'/../dto/GoalDTO.php';
 
 class GoalController extends AppController {
@@ -12,12 +13,14 @@ class GoalController extends AppController {
 
     private $messages = [];
     private $goalRepository;
+    private $badgeRepository;
 
     public function __construct()
     {
         $this->checkLogin();
         parent::__construct();
         $this->goalRepository = new GoalRepository();
+        $this->badgeRepository = new BadgeRepository();
     }
 
     public function addGoal()
@@ -49,6 +52,7 @@ class GoalController extends AppController {
                 $goalDTO = new GoalDTO($goalData);
                 $this->goalRepository->addGoal($goalDTO);
                 
+                $this->badgeRepository->checkAchievements($userId);
                 header("Location: /dashboard");
                 exit(); 
             }
@@ -63,15 +67,12 @@ class GoalController extends AppController {
 
     public function editGoal()
     {
-        // TRASA POST - Zapisywanie zmian
         if ($this->isPost()) {
             $id = (int) $_POST['id'];
             
-            // 1. Pobieramy stary cel, by zachować zdjęcie jeśli nie wgrano nowego
             $currentGoal = $this->goalRepository->getGoalById($id);
             $imagePath = $currentGoal->imagePath;
 
-            // 2. Obsługa nowego pliku
             if (isset($_FILES['image']) && is_uploaded_file($_FILES['image']['tmp_name'])) {
                 if ($this->validate($_FILES['image'])) {
                     $imagePath = time() . '_' . $_FILES['image']['name']; 
@@ -146,6 +147,9 @@ class GoalController extends AppController {
     
             if ($goalId && $amount > 0) {
                 $result = $this->goalRepository->depositFunds($goalId, $amount);
+
+                $this->badgeRepository->checkAchievements($_SESSION['user_id']);
+                
                 $newGoalPercent = $result['new_progress'];
                 $newTotalProgress = $this->goalRepository->getTotalProgress($_SESSION['user_id']);
                 

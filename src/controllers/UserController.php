@@ -2,22 +2,26 @@
 
 require_once 'AppController.php';
 require_once __DIR__.'/../repository/UserRepository.php';
+require_once __DIR__.'/../repository/BadgeRepository.php';
 require_once __DIR__.'/../dto/UserDTO.php';
+
 
 class UserController extends AppController {
 
     private $userRepository;
+    private $badgeRepository;
 
     public function __construct() {
         $this->checkLogin(); // Ochrona sesji
         parent::__construct();
         $this->userRepository = new UserRepository();
+        $this->badgeRepository = new BadgeRepository();
     }
 
     public function profile() {
         $userId = $_SESSION['user_id'];
         $user = $this->userRepository->getUserDetailsById($userId);
-        $badges = $this->userRepository->getUserBadges($userId);
+        $badges = $this->badgeRepository->getUserBadges($userId);
 
         return $this->render('profile', [
             'user' => $user,

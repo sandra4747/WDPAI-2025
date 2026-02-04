@@ -34,12 +34,11 @@ INSERT INTO goals (user_id, category_id, title, target_amount, current_amount, t
 -- ODZNAKI 
 INSERT INTO badges (name, icon, description) VALUES
 ('Początkujący', '🌱', 'Utworzono pierwszy cel'),
-('Bogacz', '💰', 'Zgromadzono ponad 10k'),
-('Systematyczny', '📅', 'Regularne wpłaty');
+('Bogacz', '💰', 'Zgromadzono ponad 10k');
 
 -- PRZYPISANIE ODZNAK 
 INSERT INTO user_badges (user_id, badge_id) VALUES
-(2, 1), (2, 3);         
+(2, 1);         
 
 SELECT setval('roles_id_seq', (SELECT MAX(id) FROM roles));
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));

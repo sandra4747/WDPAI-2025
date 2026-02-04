@@ -118,24 +118,4 @@ class UserRepository extends Repository
         }
         return $users;
     }
-
-    public function getUserBadges(int $userId): array
-    {
-        $stmt = $this->database->connect()->prepare('
-            SELECT 
-                b.name, 
-                b.icon, 
-                b.description
-            FROM badges b
-            JOIN user_badges ub ON b.id = ub.badge_id
-            WHERE ub.user_id = :id
-            ORDER BY ub.awarded_at DESC
-        ');
-
-        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
-        
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 }
