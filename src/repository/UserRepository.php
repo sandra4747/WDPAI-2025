@@ -5,29 +5,24 @@ require_once 'Repository.php';
 class UserRepository extends Repository
 {
     public function createUser(UserRegistrationDTO $userDto): void {
-        // 1. Pobieramy połączenie z bazą
         $db = $this->database->connect();
     
         try {
-            // 2. ROZPOCZYNAMY TRANSAKCJĘ
             $db->beginTransaction();
     
-            // 3. WSTAWIANIE DO TABELI USERS
             $stmt = $db->prepare('
                 INSERT INTO users (role_id, email, password)
                 VALUES (?, ?, ?) RETURNING id
             ');
             
             $stmt->execute([
-                1, // Domyślna rola (np. ROLE_USER)
+                1, 
                 $userDto->email,
                 $userDto->password
             ]);
             
-            // Pobieramy ID, które baza przed chwilą nadała użytkownikowi
             $userId = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
     
-            // 4. WSTAWIANIE DO TABELI PROFILES (używając uzyskanego userId)
             $stmt = $db->prepare('
                 INSERT INTO profiles (user_id, first_name, last_name)
                 VALUES (?, ?, ?)
@@ -39,17 +34,12 @@ class UserRepository extends Repository
                 $userDto->lastName
             ]);
     
-            // 5. ZATWIERDZAMY TRANSAKCJĘ
-            // Dopiero teraz dane stają się widoczne dla innych i zostają na stałe w bazie
             $db->commit();
     
         } catch (PDOException $e) {
-            // 6. COFAMY ZMIANY W RAZIE BŁĘDU
-            // Jeśli cokolwiek poszło nie tak, baza wróci do stanu sprzed beginTransaction
             if ($db->inTransaction()) {
                 $db->rollBack();
             }
-            // Wyrzucamy błąd dalej, żeby kontroler mógł go obsłużyć (np. pokazać komunikat)
             throw $e;
         }
     }
@@ -67,7 +57,7 @@ class UserRepository extends Repository
             return null;
         }
     
-        return $user; // Zwracamy tablicę z id, email i password
+        return $user; 
     }
 
     public function getUserDetailsById(int $id): ?UserDTO {
@@ -124,9 +114,28 @@ class UserRepository extends Repository
     
         $users = [];
         foreach ($usersData as $data) {
-            // Przekazujemy całą tablicę do konstruktora DTO
             $users[] = new AdminUserDTO($data);
         }
         return $users;
+    }
+
+    public function getUserBadges(int $userId): array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT 
+                b.name, 
+                b.icon, 
+                b.description
+            FROM badges b
+            JOIN user_badges ub ON b.id = ub.badge_id
+            WHERE ub.user_id = :id
+            ORDER BY ub.awarded_at DESC
+        ');
+
+        $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
+        
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

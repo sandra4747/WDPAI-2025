@@ -9,7 +9,7 @@ class UserController extends AppController {
     private $userRepository;
 
     public function __construct() {
-        $this->checkLogin(); // Ochrona sesją
+        $this->checkLogin(); // Ochrona sesji
         parent::__construct();
         $this->userRepository = new UserRepository();
     }
@@ -17,12 +17,16 @@ class UserController extends AppController {
     public function profile() {
         $userId = $_SESSION['user_id'];
         $user = $this->userRepository->getUserDetailsById($userId);
+        $badges = $this->userRepository->getUserBadges($userId);
 
-        return $this->render('profile', ['user' => $user]);
+        return $this->render('profile', [
+            'user' => $user,
+            'badges' => $badges 
+        ]);
     }
 
     public function updateProfile() {
-        if (!$this->isPost()) { // A2: Tylko POST
+        if (!$this->isPost()) { 
             header("Location: /profile");
             exit();
         }
@@ -46,7 +50,6 @@ class UserController extends AppController {
             $avatarUrl = $user->avatarUrl;
         }
     
-        // LINIA 34: Nazwa musi być identyczna jak w Repository i mieć 5 argumentów!
         $this->userRepository->updateUserProfile($userId, $name, $surname, $email, $avatarUrl);
     
         return $this->render('profile', [

@@ -26,27 +26,24 @@ INSERT INTO categories (name, icon) VALUES
 ('Gadżety', 'laptop'),
 ('Dom', 'house');
 
--- TAGS
-INSERT INTO tags (tag_name) VALUES
-('Pilne'),
-('Marzenie'),
-('Praca'),
-('Zdrowie');
-
 -- GOALS
 INSERT INTO goals (user_id, category_id, title, target_amount, current_amount, target_date, image_path) VALUES
 (2, 3, 'Fundusz awaryjny', 10000.00, 6000.00, '2026-06-30', NULL),
 (2, 2, 'Nowy MacBook Pro', 12000.00, 3000.00, '2026-11-30', NULL);
 
--- GOAL_TAGS (Relacja wiele-do-wielu)
-INSERT INTO goal_tags (goal_id, tag_id) VALUES
-(1, 1),
-(1, 4),
-(2, 2),
-(2, 3);
+-- ODZNAKI 
+INSERT INTO badges (name, icon, description) VALUES
+('Początkujący', '🌱', 'Utworzono pierwszy cel'),
+('Bogacz', '💰', 'Zgromadzono ponad 10k'),
+('Systematyczny', '📅', 'Regularne wpłaty');
+
+-- PRZYPISANIE ODZNAK 
+INSERT INTO user_badges (user_id, badge_id) VALUES
+(2, 1), (2, 3);         
 
 SELECT setval('roles_id_seq', (SELECT MAX(id) FROM roles));
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 SELECT setval('profiles_id_seq', (SELECT MAX(id) FROM profiles));
 SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
 SELECT setval('goals_id_seq', (SELECT MAX(id) FROM goals));
+SELECT setval('badges_id_seq', (SELECT MAX(id) FROM badges));

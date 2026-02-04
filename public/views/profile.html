@@ -69,6 +69,31 @@
             </div>
         </form>
     </section>
+
+    <div class="profile-form-container badges-container">
+        <h2 class="section-title">Twoje Osiągnięcia</h2>
+
+        <?php if (isset($badges) && !empty($badges)): ?>
+            <div class="badges-grid">
+                <?php foreach ($badges as $badge): ?>
+                    <div class="badge-card">
+                        <div class="badge-icon"><?= $badge['icon'] ?></div>
+                        <div class="badge-content">
+                            <div class="badge-name"><?= $badge['name'] ?></div>
+                            <div class="badge-desc"><?= $badge['description'] ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="no-badges">
+                <div class="no-badges-icon">🔒</div>
+                <p>Jeszcze nie zdobyłeś żadnych odznak.<br>Dodaj cele i oszczędzaj, aby je odblokować!</p>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    </main>
 </main>
 
 <nav class="mobile-nav">

@@ -113,6 +113,53 @@
 .dark-btn { background: #111827; }
 
 
+.badges-container {
+    margin-top: 40px;
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.badge-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center; 
+    gap: 12px;
+}
+
+.badge-icon {
+    font-size: 2rem;
+    min-width: 45px; 
+    text-align: center;
+}
+
+.badge-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.badge-desc {
+    font-size: 0.75rem;
+    color: #888;
+    line-height: 1.2;
+}
+
+.no-badges {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+}
+
 @media (max-width: 600px) {
     .profile-layout {
         flex-direction: column;

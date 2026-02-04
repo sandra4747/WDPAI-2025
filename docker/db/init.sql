@@ -57,15 +57,18 @@ CREATE TABLE goal_logs (
     action_type VARCHAR(50)
 );
 
-CREATE TABLE tags (
+CREATE TABLE badges (
     id SERIAL PRIMARY KEY,
-    tag_name VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL,
+    icon VARCHAR(50) NOT NULL,
+    description VARCHAR(255)
 );
 
-CREATE TABLE goal_tags (
-    goal_id INTEGER NOT NULL,
-    tag_id INTEGER NOT NULL,
-    PRIMARY KEY (goal_id, tag_id)
+CREATE TABLE user_badges (
+    user_id INTEGER NOT NULL,
+    badge_id INTEGER NOT NULL,
+    awarded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, badge_id)
 );
 
 -- =========================
@@ -96,13 +99,13 @@ ALTER TABLE goal_logs
 ADD CONSTRAINT fk_goal_logs_goal
 FOREIGN KEY (goal_id) REFERENCES goals(id) ON DELETE CASCADE;
 
-ALTER TABLE goal_tags
-ADD CONSTRAINT fk_goal_tags_goal
-FOREIGN KEY (goal_id) REFERENCES goals(id) ON DELETE CASCADE;
+ALTER TABLE user_badges
+ADD CONSTRAINT fk_user_badges_user
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
-ALTER TABLE goal_tags
-ADD CONSTRAINT fk_goal_tags_tag
-FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE;
+ALTER TABLE user_badges
+ADD CONSTRAINT fk_user_badges_badge
+FOREIGN KEY (badge_id) REFERENCES badges(id) ON DELETE CASCADE;
 
 -- =========================
 -- F U N K C J E
