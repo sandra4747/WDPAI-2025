@@ -31,10 +31,15 @@ class AdminController extends AppController {
 
     public function deleteUser() {
         if (!$this->isPost()) {
-            header("Location: /admin");
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/admin");
             exit();
         }
+
         $this->userRepository->deleteUser((int)$_POST['id']);
-        header("Location: /admin");
+        
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/admin");
+        exit();
     }
 }

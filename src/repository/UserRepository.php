@@ -118,4 +118,13 @@ class UserRepository extends Repository
         }
         return $users;
     }
+
+    public function deleteUser(int $id): void 
+    {
+        $stmt = $this->database->connect()->prepare('
+            DELETE FROM users WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
