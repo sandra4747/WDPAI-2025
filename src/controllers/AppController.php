@@ -56,4 +56,16 @@ class AppController {
             exit();
         }
     }
+
+    protected function checkUserOnly()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'ROLE_USER') {
+            $this->render('error_403');
+            exit();
+        }
+    }
 }

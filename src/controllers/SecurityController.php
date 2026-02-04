@@ -35,7 +35,16 @@ class SecurityController extends AppController {
         $userDetails = $this->userRepository->getUserDetailsById($user['id']);
         $_SESSION['role'] = $userDetails->role; 
     
-        header("Location: /dashboard");
+        $url = "http://$_SERVER[HTTP_HOST]";
+
+        if ($_SESSION['role'] === 'ROLE_ADMIN') {
+            // Jeśli to Admin -> Panel Administratora
+            header("Location: {$url}/admin");
+        } else {
+            // Jeśli to Zwykły User -> Dashboard
+            header("Location: {$url}/dashboard");
+        }
+        
         exit();
     }
 

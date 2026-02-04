@@ -17,7 +17,6 @@ class GoalRepository extends Repository {
         $goalObjects = [];
         
         foreach ($rawGoals as $rawGoal) {
-            // Dopasowujemy klucze pod konstruktor DTO (jeśli trzeba)
             $rawGoal['amount'] = $rawGoal['target_amount'];
             $goalObjects[] = new GoalDTO($rawGoal);
         }
@@ -102,7 +101,6 @@ class GoalRepository extends Repository {
             return null;
         }
 
-        // Dopasowujemy klucze
         $rawGoal['amount'] = $rawGoal['target_amount'];
         return new GoalDTO($rawGoal);
     }
@@ -118,11 +116,10 @@ class GoalRepository extends Repository {
             WHERE id = :id
         ');
     
-        // Bindujemy wszystkie parametry z obiektu DTO
         $stmt->bindParam(':title', $goal->title, PDO::PARAM_STR);
         $stmt->bindParam(':target_amount', $goal->targetAmount, PDO::PARAM_STR);
         $stmt->bindParam(':category_id', $goal->categoryId, PDO::PARAM_INT);
-        $stmt->bindParam(':image_path', $goal->imagePath, PDO::PARAM_STR); // <--- TO DODAJEMY
+        $stmt->bindParam(':image_path', $goal->imagePath, PDO::PARAM_STR); 
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     
         $stmt->execute();

@@ -14,6 +14,9 @@ class UserController extends AppController {
     public function __construct() {
         $this->checkLogin(); // Ochrona sesji
         parent::__construct();
+
+        $this->checkUserOnly();
+        
         $this->userRepository = new UserRepository();
         $this->badgeRepository = new BadgeRepository();
     }

@@ -11,6 +11,8 @@ class DashboardController extends AppController {
     public function __construct() {
         parent::__construct(); 
         $this->goalsRepository = new GoalRepository();
+        $this->checkUserOnly();
+
     }
 
     public function index() {
@@ -53,7 +55,6 @@ class DashboardController extends AppController {
         $content = trim(file_get_contents("php://input"));
         $decoded = json_decode($content, true);
         
-        // Pobieramy to co użytkownik wpisał, zamiast sztywnego 'heart'
         $searchString = $decoded['search'] ?? '';
         $goals = $this->goalsRepository->getGoalByTitle($searchString);
         

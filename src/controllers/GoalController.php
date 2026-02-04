@@ -19,6 +19,9 @@ class GoalController extends AppController {
     {
         $this->checkLogin();
         parent::__construct();
+
+        $this->checkUserOnly();
+        
         $this->goalRepository = new GoalRepository();
         $this->badgeRepository = new BadgeRepository();
     }
@@ -94,7 +97,6 @@ class GoalController extends AppController {
             exit();
         }
 
-        // TRASA GET - Wyświetlanie formularza
         $id = $_GET['id'] ?? null;
         if (!$id) {
             header("Location: /dashboard");
@@ -149,7 +151,7 @@ class GoalController extends AppController {
                 $result = $this->goalRepository->depositFunds($goalId, $amount);
 
                 $this->badgeRepository->checkAchievements($_SESSION['user_id']);
-                
+
                 $newGoalPercent = $result['new_progress'];
                 $newTotalProgress = $this->goalRepository->getTotalProgress($_SESSION['user_id']);
                 
