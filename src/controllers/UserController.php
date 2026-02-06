@@ -16,7 +16,7 @@ class UserController extends AppController {
         parent::__construct();
 
         $this->checkUserOnly();
-        
+
         $this->userRepository = new UserRepository();
         $this->badgeRepository = new BadgeRepository();
     }
@@ -58,9 +58,11 @@ class UserController extends AppController {
         }
     
         $this->userRepository->updateUserProfile($userId, $name, $surname, $email, $avatarUrl);
+        $badges = $this->badgeRepository->getUserBadges($userId);
     
         return $this->render('profile', [
             'user' => $this->userRepository->getUserDetailsById($userId),
+            'badges' => $badges,
             'messages' => ['Profil został pomyślnie zaktualizowany!']
         ]);
     }
