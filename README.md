@@ -10,10 +10,12 @@
 1. [O projekcie](#o-projekcie)
 2. [Kluczowe Funkcjonalności](#kluczowe-funkcjonalności)
 3. [Architektura Techniczna](#architektura-techniczna)
-4. [Baza Danych](#baza-danych)
-5. [Interfejs Użytkownika](#interfejs-użytkownika)
-6. [Instrukcja Uruchomienia](#instrukcja-uruchomienia)
-7. [Scenariusze Testowe](#scenariusze-testowe)
+4. [Diagram Warstwowy](#diagram-warstwowy)
+5. [Baza Danych](#baza-danych)
+6. [Interfejs Użytkownika](#interfejs-użytkownika)
+7. [Instrukcja Uruchomienia](#instrukcja-uruchomienia)
+8. [Scenariusze Testowe](#scenariusze-testowe)
+9. [Checklist](#checklist)
 
 ---
 
@@ -65,12 +67,19 @@ Aplikacja została zbudowana w oparciu o wzorzec **MVC (Model-View-Controller)**
    
 ---
 
+### Diagram Warstwowy
+<img src="./docs/architecture.png" width="40%">
+
+---
+
 ## Baza Danych
 
 Baza danych PostgreSQL została zaprojektowana zgodnie z **3. Postacią Normalną (3NF)**, eliminując redundancję danych.
 
 ### Diagram ERD
-![Diagram ERD](./docs/ERD.png)
+📌 Diagram wygenerowany w pgAdmin na podstawie schematu bazy PostgreSQL uruchomionej w Dockerze.
+
+<img src="./docs/ERD.png" width="60%">
 
 ### Zaimplementowane wymagane elementy SQL:
 * **Relacje:**
@@ -211,17 +220,13 @@ Baza danych PostgreSQL została zaprojektowana zgodnie z **3. Postacią Normaln�
 ---
 
 ## Interfejs Użytkownika
-
-![Dashboard](./docs/screenshots/dashboard.png)
-![Gallery](./docs/screenshots/gallery.png)
-![AddGoal](./docs/screenshots/addGoal.png)
-![Profile](./docs/screenshots/profile.png)
-![Admin](./docs/screenshots/admin.png)
-
-
-
-
-
+<div align="center">
+<img src="./docs/screenshots/dashboard.png" width="70%">
+<img src="./docs/screenshots/gallery.png" width="70%">
+<img src="./docs/screenshots/addGoal.png" width="70%">
+<img src="./docs/screenshots/profile.png" width="70%">
+<img src="./docs/screenshots/admin.png" width="70%">
+</div>
 
 ---
 
@@ -268,4 +273,74 @@ Projekt wykorzystuje bibliotekę **PHPUnit** do weryfikacji logiki biznesowej. T
     ```bash
     # Uruchomienie PHPUnit wewnątrz kontenera Docker
     docker compose exec php ./vendor/bin/phpunit tests/unit
+
+### 3. Przykładowy scenariusz testowy (ręczny)
+
+1. **Logowanie**
+   - Wejdź na `http://localhost:8080`
+   - Zaloguj się jako:  
+     - admin@dreambo.com / adminadmin  
+     - jan@poczta.pl / test1234  
+
+2. **Role**
+   - Jako USER nie masz dostępu do panelu admina → powinien pojawić się **403**
+   - Jako ADMIN masz dostęp jedynie do panelu admina.
+
+3. **CRUD Celów**
+   - **Create:** Dodaj nowe marzenie z poziomu Dashboardu.
+   - **Update (Wpłata):** Wejdź w szczegóły celu i zarejestruj wpłatę (np. 100 PLN). Pasek postępu powinien się zaktualizować.
+   - **Update (Edycja):** Edytuj cel i zmień całkowitą kwotę docelową.
+   - **Delete:** Usuń cel – powinien zniknąć z listy.
+
+4. **Błąd 403**
+   - Zaloguj się jako USER i spróbuj wejść na admin → **403**
+
+5.  **Test Wyzwalacza (Trigger):**
+    - Po zmianie kwoty celu (punkt 2 w sekcji CRUD), wykonaj zapytanie: `SELECT * FROM goal_logs;`
+    - **Wynik:** Powinien pojawić się nowy rekord dokumentujący starą i nową kwotę.
+      
+6.  **Test Widoku (View):**
+    - Wykonaj: `SELECT * FROM v_goals_details;`
+    - **Wynik:** Powinieneś widzieć połączone dane celów wraz z nazwami kategorii i wyliczonym procentem postępu.
+
+---
+
+## Checklist
+
+### Dokumentacja i Architektura
+- [x] **Dokumentacja w README.md** – Pełny opis funkcjonalności, instrukcja uruchomienia i architektura.
+- [x] **Architektura MVC** – Czysty podział na Model, Widok i Kontroler.
+- [x] **Kod Obiektowy (OOP)** – Wykorzystanie klas, interfejsów (DTO).
+- [x] **Diagram ERD** – Schemat relacji bazy danych wygenerowany w Mermaid/PNG.
+- [x] **System Kontroli Wersji** – Projekt zarządzany przez **Git**.
+- [x] **Temat Projektu** – **DreamBo**: Aplikacja do zarządzania celami finansowymi i marzeniami.
+
+### Baza Danych (PostgreSQL)
+- [x] **Relacyjna Baza Danych** – Tabele powiązane kluczami obcymi (`users`, `profiles`, `goals`, `categories`, `badges`, `goal_logs`).
+- [x] **Skrypty Inicjalizacyjne** – Automatyczne tworzenie struktury i danych (seed) w `docker/db/init.sql`.
+- [x] **Widoki (Views)** – `v_goals_details` (szczegóły celów) oraz `v_user_details` (dane użytkownika).
+- [x] **Wyzwalacze (Triggers)** – `audit_goal_update` do automatycznego logowania zmian kwot w tabeli `goal_logs`.
+- [x] **Funkcje PL/pgSQL** – `calculate_progress()` do obliczania procentu realizacji celu po stronie bazy.
+- [x] **Transakcje (ACID)** – Obsługa atomowej rejestracji (tabela `users` + `profiles`) w `UserRepository`.
+- [x] **Więzy Integralności** – Zastosowanie `ON DELETE CASCADE` przy usuwaniu użytkowników i celów.
+
+### Frontend i Technologie Webowe
+- [x] **HTML5 & CSS3** – Semantyczny kod i responsywny design.
+- [x] **Czysty JavaScript (Vanilla JS)** – Obsługa interakcji bez ciężkich frameworków.
+- [x] **Fetch API (AJAX)** – Asynchroniczne wyszukiwanie celów (Live Search) bez przeładowania strony.
+- [x] **Dynamiczne Elementy** – Paski postępu (Progress Bars) aktualizowane na żywo.
+
+### Bezpieczeństwo i Backend (PHP)
+- [x] **PHP 8.x** – Wykorzystanie nowoczesnych funkcji języka.
+- [x] **Bezpieczne Logowanie** – Hashowanie haseł algorytmem `bcrypt`.
+- [x] **Zarządzanie Sesją** – Ochrona przed przejęciem sesji (Session Regeneration).
+- [x] **Role Użytkowników** – Podział na **User** (zarządzanie celami) i **Admin** (zarządzanie użytkownikami).
+- [x] **Ochrona przed SQL Injection** – Użycie **Prepared Statements** (PDO) we wszystkich zapytaniach.
+- [x] **Separacja Logiki** – Wykorzystanie DTO (Data Transfer Objects) do przesyłania danych.
+
+### Jakość Kodu i Testy
+- [x] **Testy Jednostkowe (Unit)** – PHPUnit do testowania logiki DTO i Repozytoriów.
+- [x] **Testy Integracyjne** – Skrypty Bash weryfikujące endpointy i odporność na awarie bazy (Error 500).
+- [x] **Konteneryzacja** – Pełne środowisko w **Docker Compose** (Nginx, PHP, PostgreSQL, PgAdmin).
+- [x] **Clean Code** – Brak powtórzeń kodu (DRY), wzorzec Singleton dla jednej instancji bazy danych.
     
