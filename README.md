@@ -337,6 +337,8 @@ Projekt wykorzystuje bibliotekę **PHPUnit** do weryfikacji logiki biznesowej. T
 - [x] **Role Użytkowników** – Podział na **User** (zarządzanie celami) i **Admin** (zarządzanie użytkownikami).
 - [x] **Ochrona przed SQL Injection** – Użycie **Prepared Statements** (PDO) we wszystkich zapytaniach.
 - [x] **Separacja Logiki** – Wykorzystanie DTO (Data Transfer Objects) do przesyłania danych.
+- [x] **Bezpieczna Rejestracja** – Walidacja danych wejściowych (DTO), weryfikacja unikalności emaila oraz transakcyjny zapis danych (Atomowość: Użytkownik + Profil).
+- [x] **Bezpieczeństwo Sesji** – Ochrona przed atakami Session Fixation (wymuszona regeneracja ID sesji po zalogowaniu) oraz bezpieczne niszczenie danych przy wylogowaniu.
 
 ### Jakość Kodu i Testy
 - [x] **Testy Jednostkowe (Unit)** – PHPUnit do testowania logiki DTO i Repozytoriów.
