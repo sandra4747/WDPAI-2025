@@ -92,8 +92,8 @@ class Routing {
                 $controller->profile($uuid); 
             } else {
                 // 404
+                http_response_code(404);
                 include 'public/views/404.html';
-                echo "<h2>404 - Page Not Found</h2>";
             }
         }        
 }

@@ -64,7 +64,8 @@ class AppController {
         }
 
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'ROLE_USER') {
-            $this->render('error_403');
+            http_response_code(403);
+            include 'public/views/403.html';
             exit();
         }
     }

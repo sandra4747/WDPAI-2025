@@ -46,7 +46,7 @@ class DashboardController extends AppController {
         }
         
         if (!$this->isPost()) {
-            http_response_code(405); // Standardowy kod dla błędnej metody to 405
+            http_response_code(405); 
             echo json_encode(['status' => 405, 'message' => 'Method not allowed']);            
             return;
         }
