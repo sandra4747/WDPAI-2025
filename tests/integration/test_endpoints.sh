@@ -21,3 +21,26 @@ else
     echo -e "${RED}FAIL (Kontroler nie zareagował)${NC}"; exit 1
 fi
 
+echo "Test 4: Symulacja awarii (Błąd 500)..."
+
+DB_CONTAINER=$(docker ps --format "{{.Names}}" | grep -E "db|postgres" | head -n 1)
+
+if [ -z "$DB_CONTAINER" ]; then
+    echo -e "${RED}Nie znaleziono kontenera bazy danych! Pomiń ten test.${NC}"
+else
+    echo "Zatrzymuję bazę danych ($DB_CONTAINER) na chwilę..."
+    docker stop "$DB_CONTAINER" > /dev/null
+
+    echo -n "Sprawdzanie reakcji na awarię bazy... "
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -d "email=crash@test.pl&password=crash" -X POST "$BASE_URL/login")
+    docker start "$DB_CONTAINER" > /dev/null
+    
+    sleep 3
+
+    if [ "$HTTP_CODE" == "500" ]; then
+        echo -e "${GREEN}OK (Otrzymano kod 500 - aplikacja zgłosiła awarię)${NC}"
+    else
+        echo -e "${RED}FAIL (Otrzymano kod $HTTP_CODE zamiast 500)${NC}"
+    fi
+fi
+
