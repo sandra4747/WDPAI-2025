@@ -11,19 +11,15 @@ function calculateDate() {
     const target = parseFloat(targetInput.value);
     const monthly = parseFloat(monthlyInput.value);
 
-    // Obliczamy tylko jeśli mamy obie liczby i są większe od zera
     if (target > 0 && monthly > 0) {
         const monthsNeeded = Math.ceil(target / monthly);
         const today = new Date();
         
-        // Dodajemy liczbę miesięcy do dzisiejszej daty
         today.setMonth(today.getMonth() + monthsNeeded);
         
-        // 1. Wyświetlamy użytkownikowi ładną datę
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         dateOutput.innerText = today.toLocaleDateString('pl-PL', options);
 
-        // 2. Wpisujemy datę w formacie SQL (YYYY-MM-DD) do ukrytego pola
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
@@ -35,13 +31,11 @@ function calculateDate() {
     }
 }
 
-// Nasłuchujemy zmian (event listeners)
 if (targetInput && monthlyInput) {
     targetInput.addEventListener('input', calculateDate);
     monthlyInput.addEventListener('input', calculateDate);
 }
 
-// Obsługa wyświetlania nazwy pliku
 if (fileInput) {
     fileInput.addEventListener('change', function() {
         if(this.files && this.files.length > 0) {

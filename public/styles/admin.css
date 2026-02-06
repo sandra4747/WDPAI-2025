@@ -162,18 +162,14 @@ body {
     transform: scale(1.05);
 }
 
-/* RESPONSYWNOŚĆ */
+/* --- RESPONSYWNOŚĆ --- */
 
-/* --- RESPONSYWNOŚĆ: CARD VIEW (ZAMIAST TABELI) --- */
-
-/* TABLET I TELEFON (poniżej 768px) */
 @media (max-width: 768px) {
-    /* 1. Układ ogólny - jedna kolumna */
-    .admin-container {
-        grid-template-columns: 1fr;
-    }
+    /* Układ główny */
+    .admin-container { grid-template-columns: 1fr; }
+    .content { padding: 15px; }
 
-    /* 2. Sidebar - pasek na górze */
+    /* Sidebar */
     .sidebar {
         border-right: none;
         border-bottom: 1px solid var(--border);
@@ -185,38 +181,12 @@ body {
         gap: 10px;
     }
 
-    .brand {
-        margin: 0;
-        font-size: 1rem;
-    }
+    .brand { margin: 0; font-size: 1rem; }
+    
+    /* Menu poziome */
+    .menu-item { margin: 0; padding: 6px 12px; font-size: 0.8rem; white-space: nowrap; }
 
-    /* Menu robimy jako poziomy pasek z przewijaniem */
-    .menu-item {
-        margin: 0;
-        padding: 6px 12px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-    }
-
-    .content {
-        padding: 15px; /* Mniejszy margines na telefonie */
-    }
-}
-
-/* RESPONSYWNOŚĆ */
-
-@media (max-width: 768px) {
-    .admin-container { grid-template-columns: 1fr; }
-    .content { padding: 15px; }
-
-    .sidebar { 
-        flex-direction: row; flex-wrap: wrap; gap: 10px; 
-        padding: 10px; border-bottom: 1px solid #eee; border-right: none;
-        align-items: center; justify-content: center;
-    }
-    .brand { margin: 0; width: 100%; text-align: center; justify-content: center; }
-    .menu-item { margin: 0; padding: 6px 12px; font-size: 0.85rem; }
-
+    /* Tabela mobilna (karty) */
     .styled-table thead { display: none; } 
     
     .styled-table tr {
@@ -226,9 +196,8 @@ body {
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
-    .styled-table td { 
-        padding: 5px 0; border: none; width: 100%;
-    }
+    .styled-table td { padding: 5px 0; border: none; width: 100%; border-bottom: 1px solid #f9f9f9; }
+    .styled-table td:last-child { border-bottom: none; }
 
     .user-cell { width: 100%; } 
     .delete-btn { width: 100%; margin-top: 10px; }

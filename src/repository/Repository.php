@@ -7,8 +7,4 @@ class Repository{
     public function __construct(){
         $this->database = Database::getInstance();
     }
-
-    public function addUser($user){
-        
-    }
 }

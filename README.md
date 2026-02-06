@@ -343,6 +343,4 @@ Projekt wykorzystuje bibliotekę **PHPUnit** do weryfikacji logiki biznesowej. T
 ### Jakość Kodu i Testy
 - [x] **Testy Jednostkowe (Unit)** – PHPUnit do testowania logiki DTO i Repozytoriów.
 - [x] **Testy Integracyjne** – Skrypty Bash weryfikujące endpointy i odporność na awarie bazy (Error 500).
-- [x] **Konteneryzacja** – Pełne środowisko w **Docker Compose** (Nginx, PHP, PostgreSQL, PgAdmin).
-- [x] **Clean Code** – Brak powtórzeń kodu (DRY), wzorzec Singleton dla jednej instancji bazy danych.
-    
+- [x] **Konteneryzacja** – Pełne środowisko w **Docker Compose** (Nginx, PHP, PostgreSQL, PgAdmin).    
