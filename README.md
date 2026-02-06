@@ -6,14 +6,14 @@
 
 ---
 
-## 📋 Spis treści
-1. [O projekcie](#-o-projekcie)
-2. [Kluczowe Funkcjonalności](#-kluczowe-funkcjonalności)
-3. [Architektura Techniczna](#-architektura-techniczna)
-4. [Baza Danych](#-baza-danych)
-5. [Interfejs Użytkownika](#-interfejs-użytkownika)
-6. [Instrukcja Uruchomienia](#-instrukcja-uruchomienia)
-7. [Scenariusze Testowe](#-scenariusze-testowe)
+## Spis treści
+1. [O projekcie](#o-projekcie)
+2. [Kluczowe Funkcjonalności](#kluczowe-funkcjonalności)
+3. [Architektura Techniczna](#architektura-techniczna)
+4. [Baza Danych](#baza-danych)
+5. [Interfejs Użytkownika](#interfejs-użytkownika)
+6. [Instrukcja Uruchomienia](#instrukcja-uruchomienia)
+7. [Scenariusze Testowe](#scenariusze-testowe)
 
 ---
 
