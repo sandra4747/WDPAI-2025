@@ -1,6 +1,7 @@
 # ☁️ DreamBo - Twoje Prywatne Centrum Dowodzenia Marzeniami
 
 > **Temat projektu:** DreamBo – Interaktywna lista życzeń z modułem wizualizacji postępów i systemem motywacyjnym.
+>
 > **Przedmiot:** Wstęp Do Tworzenia Aplikacji Internetowych (WDPAI)
 
 ---
