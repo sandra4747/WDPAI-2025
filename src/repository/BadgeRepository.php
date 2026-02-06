@@ -45,7 +45,7 @@ class BadgeRepository extends Repository
             $this->addBadge($userId, 1); 
         }
 
-        $stmt = $conn->prepare('SELECT SUM(target_amount) FROM goals WHERE user_id = :id');
+        $stmt = $conn->prepare('SELECT SUM(current_amount) FROM goals WHERE user_id = :id');
         $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
         $stmt->execute();
         $totalAmount = $stmt->fetchColumn();
