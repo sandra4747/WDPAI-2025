@@ -309,9 +309,9 @@ Projekt wykorzystuje bibliotekę **PHPUnit** do weryfikacji logiki biznesowej. T
 
 ### Dokumentacja i Architektura
 - [x] **Dokumentacja w README.md** – Pełny opis funkcjonalności, instrukcja uruchomienia i architektura.
-- [x] **Architektura MVC** – Czysty podział na Model, Widok i Kontroler.
+- [x] **Architektura MVC** – Podział na Model, Widok i Kontroler.
 - [x] **Kod Obiektowy (OOP)** – Wykorzystanie klas, interfejsów (DTO).
-- [x] **Diagram ERD** – Schemat relacji bazy danych wygenerowany w Mermaid/PNG.
+- [x] **Diagram ERD** – Schemat relacji bazy danych wygenerowany w pgAdmin na podstawie schematu bazy PostgreSQL uruchomionej w Dockerze/PNG.
 - [x] **System Kontroli Wersji** – Projekt zarządzany przez **Git**.
 - [x] **Temat Projektu** – **DreamBo**: Aplikacja do zarządzania celami finansowymi i marzeniami.
 
@@ -326,19 +326,17 @@ Projekt wykorzystuje bibliotekę **PHPUnit** do weryfikacji logiki biznesowej. T
 
 ### Frontend i Technologie Webowe
 - [x] **HTML5 & CSS3** – Semantyczny kod i responsywny design.
-- [x] **Czysty JavaScript (Vanilla JS)** – Obsługa interakcji bez ciężkich frameworków.
+- [x] **Czysty JavaScript** – Obsługa interakcji bez ciężkich frameworków.
 - [x] **Fetch API (AJAX)** – Asynchroniczne wyszukiwanie celów (Live Search) bez przeładowania strony.
 - [x] **Dynamiczne Elementy** – Paski postępu (Progress Bars) aktualizowane na żywo.
 
 ### Bezpieczeństwo i Backend (PHP)
-- [x] **PHP 8.x** – Wykorzystanie nowoczesnych funkcji języka.
 - [x] **Bezpieczne Logowanie** – Hashowanie haseł algorytmem `bcrypt`.
-- [x] **Zarządzanie Sesją** – Ochrona przed przejęciem sesji (Session Regeneration).
+- [x] **Zarządzanie Sesją** – Ochrona przed atakami **Session Fixation** (wymuszona regeneracja ID sesji po zalogowaniu) oraz bezpieczne niszczenie danych przy wylogowaniu.
 - [x] **Role Użytkowników** – Podział na **User** (zarządzanie celami) i **Admin** (zarządzanie użytkownikami).
 - [x] **Ochrona przed SQL Injection** – Użycie **Prepared Statements** (PDO) we wszystkich zapytaniach.
 - [x] **Separacja Logiki** – Wykorzystanie DTO (Data Transfer Objects) do przesyłania danych.
 - [x] **Bezpieczna Rejestracja** – Walidacja danych wejściowych (DTO), weryfikacja unikalności emaila oraz transakcyjny zapis danych (Atomowość: Użytkownik + Profil).
-- [x] **Bezpieczeństwo Sesji** – Ochrona przed atakami Session Fixation (wymuszona regeneracja ID sesji po zalogowaniu) oraz bezpieczne niszczenie danych przy wylogowaniu.
 
 ### Jakość Kodu i Testy
 - [x] **Testy Jednostkowe (Unit)** – PHPUnit do testowania logiki DTO i Repozytoriów.
